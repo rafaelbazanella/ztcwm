@@ -1,0 +1,59 @@
+{
+  "name": "ztcwm",
+  "version": "1.0.0",
+  "description": "ZeroTier Controller Web Manager - Modern web UI for ZeroTier network controllers",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -k -n server,client -c blue,green \"tsx watch server/index.ts\" \"vite --port 3001 --open false\"",
+    "dev:server": "tsx watch server/index.ts",
+    "dev:client": "vite --port 3001",
+    "build": "tsc && vite build && tsc -p server/tsconfig.json",
+    "start": "NODE_ENV=production node server/dist/index.js",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .ts",
+    "format": "prettier --write \"**/*.{ts,html,css,json}\"",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "zerotier",
+    "network",
+    "controller",
+    "web-components",
+    "lit"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/cookie": "^11.0.2",
+    "@fastify/csrf-protection": "^7.1.0",
+    "@fastify/http-proxy": "^11.4.3",
+    "@fastify/rate-limit": "^10.3.0",
+    "@fastify/sensible": "^6.0.4",
+    "@fastify/session": "^11.1.1",
+    "@fastify/static": "^9.1.0",
+    "@vaadin/router": "^2.0.1",
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^12.9.0",
+    "concurrently": "^9.2.1",
+    "fastify": "^5.8.4",
+    "lit": "^3.3.2",
+    "lucide-static": "^1.8.0"
+  },
+  "devDependencies": {
+    "@open-wc/testing-helpers": "^3.0.1",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/better-sqlite3": "^7.6.13",
+    "@typescript-eslint/eslint-plugin": "^8.57.2",
+    "@typescript-eslint/parser": "^8.57.2",
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-lit": "^2.2.1",
+    "happy-dom": "^20.8.9",
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.1",
+    "vitest": "^4.1.4"
+  }
+}
