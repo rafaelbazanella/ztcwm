@@ -1,6 +1,28 @@
 # ztcwm — ZeroTier Controller Web Manager
 
+[![Buy Me a Beer](https://img.shields.io/badge/🍺-Buy%20Me%20a%20Beer-yellow)](#-buy-me-a-beer)
+
 A secure, role-based web admin interface for self-hosted ZeroTier network controllers, where the ZeroTier auth token never leaves the server.
+
+## 🍺 Buy Me a Beer
+
+If this project saves you time, helps your team, or just makes your life easier, consider supporting it.
+
+Your support helps keep the project maintained, secure, and evolving.
+
+- **Crypto (recommended)**  
+  - BTC (BSC): `0xbc05bcc33d4f4503575a5e43891b9f5c8da862ff`
+  - USDT (SOL): `HQDUo4nBt2UpAUWuVsPCbD51bsov2yqT9pPR1hWLqSmU`
+
+- **PayPal**  
+  `Soon`
+
+- **Pix (Brazil)**  
+  `rafaelbazanella@gmail.com`
+
+---
+
+No pressure — even a ⭐ on the repo already helps a lot.
 
 ## What This Is
 
