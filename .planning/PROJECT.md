@@ -22,6 +22,17 @@ A secure, role-based admin interface where the ZeroTier auth token never leaves 
 - Documentation: 261-line v3.0 README replacing the 50-line v1.0; paste-ready EC2 §10 covering Ubuntu 24.04 + AL2023 (NodeSource setup_20.x, hardened systemd unit, nginx X-Forwarded-*, certbot TLS, SG TCP 443 + UDP 9993 + TCP 9993-localhost, SQLite hot-backup timer); `docs/architecture.md` + `docs/development.md` refreshed in-place against v2.0+ codebase; `docs/setup.md` deleted (absorbed into README); `docs/api-reference.md` annotated with caveat
 - 671 tests across 33 files (was 628), 25/25 v3.0 requirements complete
 
+## Current Milestone: v3.1 Polish & i18n Cleanup
+
+**Goal:** Resolve regressions and UX gaps surfaced after v3.0 — surface ZT client version per member, standardize all visible text to English, restore Lucide icons on Users-page actions, and lift the navbar out of the page outlet so it aligns with the brand logo.
+
+**Target features:**
+
+- Display each member's ZeroTier client version next to the *online* flag on the network-detail screen
+- System-wide i18n audit — every visible string (components, pages, modals, toasts, errors) standardized to English
+- Restore Lucide icons (`edit`, `reset password`, `delete`) on Users-page action buttons (regression from the v3.0 `.btn-*` standardization)
+- Move `<zt-navbar>` outside `<div id="outlet">` so it stays independent of the routed page and aligns with `<div class="brand">` at the top
+
 ## Requirements
 
 ### Validated
@@ -76,7 +87,7 @@ A secure, role-based admin interface where the ZeroTier auth token never leaves 
 
 ### Active
 
-(None — ready for next milestone planning. Use `/gsd-new-milestone` to seed the next set of requirements.)
+(v3.1 requirements being defined — see `.planning/REQUIREMENTS.md` once written.)
 
 ### Out of Scope
 
@@ -171,4 +182,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-29 — v3.0 milestone shipped*
+*Last updated: 2026-05-04 — v3.1 milestone started (Polish & i18n Cleanup)*
