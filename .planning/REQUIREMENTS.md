@@ -47,23 +47,23 @@ Explicitly excluded for v3.1. Documented to prevent scope creep.
 
 ## Traceability
 
-Updated during roadmap creation by `gsd-roadmapper`.
+Updated by `gsd-roadmapper` on 2026-05-04.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MEMBER-01 | TBD | Pending |
-| MEMBER-02 | TBD | Pending |
-| I18N-01 | TBD | Pending |
-| I18N-02 | TBD | Pending |
-| USERS-01 | TBD | Pending |
-| LAYOUT-01 | TBD | Pending |
-| LAYOUT-02 | TBD | Pending |
+| MEMBER-01 | Phase 18 | Pending |
+| MEMBER-02 | Phase 18 | Pending |
+| I18N-01 | Phase 19 | Pending |
+| I18N-02 | Phase 19 | Pending |
+| USERS-01 | Phase 20 | Pending |
+| LAYOUT-01 | Phase 20 | Pending |
+| LAYOUT-02 | Phase 20 | Pending |
 
 **Coverage:**
 - v3.1 requirements: 7 total
-- Mapped to phases: 0 (pending roadmap)
-- Unmapped: 7 ⚠️ (resolved when `gsd-roadmapper` runs)
+- Mapped to phases: 7 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-04*
-*Last updated: 2026-05-04 after initial definition for v3.1*
+*Last updated: 2026-05-04 — traceability table populated by `gsd-roadmapper` (3 phases, 7/7 requirements mapped)*
