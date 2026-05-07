@@ -17,14 +17,14 @@ started: 2026-05-04
 See: .planning/PROJECT.md (updated 2026-05-04)
 
 **Core value:** A secure, role-based admin interface where the ZeroTier auth token never leaves the server.
-**Current focus:** Milestone v3.1 — Polish & i18n Cleanup (roadmap created, ready to plan Phase 18)
+**Current focus:** Milestone v3.1 — Polish & i18n Cleanup (Phase 18 context gathered, ready to plan)
 
 ## Current Position
 
-Phase: 18 — Member ZT Client Version (not started, planning pending)
+Phase: 18 — Member ZT Client Version (context gathered)
 Plan: —
 Status: Awaiting `/gsd-plan-phase 18`
-Last activity: 2026-05-04 — Roadmap drafted (3 phases, 7 requirements mapped)
+Last activity: 2026-05-04 — Phase 18 context gathered (16 decisions across 4 gray areas; CONTEXT.md committed)
 
 Progress: [░░░░░░░░░░] 0% (0/3 phases complete)
 
@@ -48,11 +48,16 @@ Decisions are logged in PROJECT.md Key Decisions table. Recent decisions carried
 - v3.0 (theme): `data-theme` boot attribute + MIRROR-fenced literal block is sole permitted home for hex literals — Phase 20 navbar/shell fixes must not touch styling outside this constraint
 - v3.0 (button): `.btn-*` class system is the standardization target — Phase 20 Users-page icon regression must adopt it (icons inside `.btn-*`), not bypass it
 
-v3.1-specific decisions to log as they emerge during planning:
+v3.1-specific decisions captured (locked):
 
-- Phase 18: How is `version` propagated through the `Member` type and `memberService`? (Decision pending until plan-phase.)
-- Phase 19: Strategy for the i18n sweep — pure inline-string replacement vs. light dictionary helper. (Decision pending; Out-of-Scope already excludes runtime locale switching.)
-- Phase 20: Where exactly does `<zt-navbar>` move to in `src/app.ts` relative to `<div id="outlet">` and `<div class="brand">`? (Decision pending until plan-phase.)
+- Phase 18 (D-09/D-10): `version` flows via new `MemberWithPeer` view type + `memberService.listMembersWithPeers()` method (parallel `listMembers` + `nodeService.getPeers()`, merged by nodeId).
+- Phase 18 (D-05): Offline rows hide the version sub-line entirely (refines MEMBER-02 literal text — intent preserved).
+- Phase 18 (D-13/D-14): Client-side merge with graceful degrade on peer-fetch failure; no new backend route.
+
+v3.1-specific decisions still pending until plan-phase:
+
+- Phase 19: Strategy for the i18n sweep — pure inline-string replacement vs. light dictionary helper. (Out-of-Scope already excludes runtime locale switching.)
+- Phase 20: Where exactly does `<zt-navbar>` move to in `src/app.ts` relative to `<div id="outlet">` and `<div class="brand">`?
 
 ### Roadmap Evolution
 
@@ -76,5 +81,5 @@ None. All seven v3.1 requirements are well-scoped polish items with no external 
 ## Session Continuity
 
 Last session: 2026-05-04
-Stopped at: Roadmap created (.planning/ROADMAP.md), traceability table populated, ready for `/gsd-plan-phase 18`
-Resume file: .planning/ROADMAP.md
+Stopped at: Phase 18 context gathered (16 decisions captured in 18-CONTEXT.md, ready for `/gsd-plan-phase 18`)
+Resume file: .planning/phases/18-member-zt-client-version/18-CONTEXT.md
