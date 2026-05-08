@@ -17,14 +17,14 @@ started: 2026-05-04
 See: .planning/PROJECT.md (updated 2026-05-04)
 
 **Core value:** A secure, role-based admin interface where the ZeroTier auth token never leaves the server.
-**Current focus:** Milestone v3.1 — Polish & i18n Cleanup (Phase 18 context gathered, ready to plan)
+**Current focus:** Milestone v3.1 — Polish & i18n Cleanup (Phase 18 UI-SPEC approved, ready to plan)
 
 ## Current Position
 
-Phase: 18 — Member ZT Client Version (context gathered)
+Phase: 18 — Member ZT Client Version (CONTEXT.md + UI-SPEC.md ready)
 Plan: —
-Status: Awaiting `/gsd-plan-phase 18`
-Last activity: 2026-05-04 — Phase 18 context gathered (16 decisions across 4 gray areas; CONTEXT.md committed)
+Status: Awaiting `/gsd-plan-phase 18 --skip-research`
+Last activity: 2026-05-08 — Phase 18 UI-SPEC approved (6/6 dimensions PASS, zero recommendations)
 
 Progress: [░░░░░░░░░░] 0% (0/3 phases complete)
 
@@ -63,6 +63,7 @@ v3.1-specific decisions still pending until plan-phase:
 
 - Milestone v3.1 created (2026-05-04): Polish & i18n Cleanup. Sourced from `.TODO.md` (4 items: member ZT version, i18n audit, Users-page Lucide icons, navbar layout fix).
 - Roadmap created (2026-05-04): 3 phases derived from 7 requirements. Phase 18 (member version), Phase 19 (i18n sweep), Phase 20 (shell + Users-page regression fixes). Phase numbering continues from Phase 17 of v3.0.
+- Phase 18 UI-SPEC approved (2026-05-08): visual contract locked — single new token `--space-xs`, single muted color, mono font for version literal, anchor verified at `network-detail.ts:519-523` (existing `<zt-badge>` preserved as status anchor; researcher noted CONTEXT prose described a dot-prefix but the real render is the badge — UI-SPEC honors intent of D-01/D-03 without re-deciding).
 
 ### Pending Todos
 
@@ -80,6 +81,6 @@ None. All seven v3.1 requirements are well-scoped polish items with no external 
 
 ## Session Continuity
 
-Last session: 2026-05-04
-Stopped at: Phase 18 context gathered (16 decisions captured in 18-CONTEXT.md, ready for `/gsd-plan-phase 18`)
-Resume file: .planning/phases/18-member-zt-client-version/18-CONTEXT.md
+Last session: 2026-05-08
+Stopped at: Phase 18 UI-SPEC approved (6/6 dimensions PASS); ready for `/gsd-plan-phase 18 --skip-research`
+Resume file: .planning/phases/18-member-zt-client-version/18-UI-SPEC.md
