@@ -13,6 +13,7 @@ const { mockMemberService, mockToastService, mockLogService, mockNetworkService,
     vi.hoisted(() => ({
         mockMemberService: {
             listMembers: vi.fn().mockResolvedValue({ data: [], meta: { totalCount: 0, authorizedCount: 0 } }),
+            listMembersWithPeers: vi.fn().mockResolvedValue({ data: [], meta: { totalCount: 0, authorizedCount: 0 } }),
             updateMember: vi.fn(),
             authorizeMember: vi.fn(),
             deauthorizeMember: vi.fn(),
@@ -488,10 +489,9 @@ describe('page-network-detail Physical Address column (Plan 14-03)', () => {
     });
 
     async function makePageWithLoadData(members: Member[], peers: unknown[]): Promise<PageNetworkDetail> {
-        mockMemberService.listMembers.mockResolvedValueOnce({
-            data: members,
-            meta: { totalCount: members.length, authorizedCount: members.filter(m => m.authorized).length },
-        });
+        const meta = { totalCount: members.length, authorizedCount: members.filter(m => m.authorized).length };
+        mockMemberService.listMembers.mockResolvedValueOnce({ data: members, meta });
+        mockMemberService.listMembersWithPeers.mockResolvedValueOnce({ data: members, meta });
         mockNodeService.getPeers.mockResolvedValueOnce(peers);
         const el = await fixture<PageNetworkDetail>(
             html`<page-network-detail></page-network-detail>`,
@@ -590,5 +590,83 @@ describe('page-network-detail Physical Address column (Plan 14-03)', () => {
         const filtered = (el as unknown as { filteredMembers: Member[] }).filteredMembers;
         expect(filtered).toHaveLength(1);
         expect(filtered[0].name).toBe('alice');
+    });
+});
+
+describe('page-network-detail Status column (Phase 18 version sub-line)', () => {
+    // D-08 separator glyph (U+00B7, middle dot) and D-06 placeholder glyph (U+2014, em dash).
+    // Built via String.fromCharCode so the source bytes are unambiguous (greppable as the
+    // hex literals 0xB7 / 0x2014) and the file-authoring layer cannot collapse them into
+    // literal codepoints. See 18-02-SUMMARY.md Deviations section for the rationale.
+    const MIDDLE_DOT = String.fromCharCode(0xB7);
+    const EM_DASH = String.fromCharCode(0x2014);
+
+    beforeEach(() => {
+        vi.clearAllMocks();
+    });
+
+    function getStatusColumn(el: PageNetworkDetail): { render: (v: unknown, r: Record<string, unknown>) => unknown } {
+        const proto = Object.getPrototypeOf(el) as { getMemberColumns?: () => Array<{ key: string; render?: unknown }> };
+        const cols = proto.getMemberColumns!.call(el);
+        const col = cols.find(c => c.key === 'online')!;
+        return col as { render: (v: unknown, r: Record<string, unknown>) => unknown };
+    }
+
+    async function renderStatusCell(el: PageNetworkDetail, val: unknown, row: Record<string, unknown>): Promise<string> {
+        const col = getStatusColumn(el);
+        const tpl = col.render(val, row);
+        const { render } = await import('lit');
+        const host = document.createElement('div');
+        render(tpl as Parameters<typeof render>[0], host);
+        return host.innerHTML;
+    }
+
+    it('B-UI-1: online + known version renders badge, middle-dot separator, and v-prefixed version', async () => {
+        const el = await makePage([buildMember()]);
+        const innerHTML = await renderStatusCell(el, true, { version: '1.10.6' });
+        expect(innerHTML).toContain('Online');
+        expect(innerHTML).toContain('zt-badge');
+        expect(innerHTML).toContain(MIDDLE_DOT);
+        expect(innerHTML).toContain('v1.10.6');
+        expect(innerHTML).not.toContain(EM_DASH);
+    });
+
+    it('B-UI-2: online + unknown version renders badge, separator, and em-dash placeholder', async () => {
+        const el = await makePage([buildMember()]);
+        const innerHTML = await renderStatusCell(el, true, { version: undefined });
+        expect(innerHTML).toContain('Online');
+        expect(innerHTML).toContain('zt-badge');
+        expect(innerHTML).toContain(MIDDLE_DOT);
+        expect(innerHTML).toContain(EM_DASH);
+        expect(innerHTML).not.toMatch(/v\d/);
+    });
+
+    it('B-UI-3: offline renders only the badge (no separator, no em-dash, no version wrapper)', async () => {
+        const el = await makePage([buildMember({ authorized: false })]);
+        const innerHTML = await renderStatusCell(el, false, { version: '1.10.6' });
+        expect(innerHTML).toContain('Offline');
+        expect(innerHTML).toContain('zt-badge');
+        expect(innerHTML).not.toContain(MIDDLE_DOT);
+        expect(innerHTML).not.toContain(EM_DASH);
+        expect(innerHTML).not.toContain('class="version"');
+    });
+
+    it('B-UI-4: loadData consumes listMembersWithPeers and propagates version onto el.members', async () => {
+        const member = buildMember({ nodeId: 'aaaaaaaaaa' });
+        mockMemberService.listMembersWithPeers.mockResolvedValueOnce({
+            data: [{ ...member, version: '1.10.6' }],
+            meta: { totalCount: 1, authorizedCount: 1 },
+        });
+        mockNodeService.getPeers.mockResolvedValueOnce([]);
+        const el = await fixture<PageNetworkDetail>(
+            html`<page-network-detail></page-network-detail>`,
+        );
+        (el as unknown as { networkId: string }).networkId = 'net1';
+        await (el as unknown as { loadData: () => Promise<void> }).loadData();
+        await el.updateComplete;
+        const rows = (el as unknown as { members: Array<Member & { version?: string }> }).members;
+        expect(rows).toHaveLength(1);
+        expect(rows[0].version).toBe('1.10.6');
+        expect(mockMemberService.listMembersWithPeers).toHaveBeenCalledWith('net1');
     });
 });
