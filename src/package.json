@@ -13,7 +13,8 @@
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"**/*.{ts,html,css,json}\"",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "audit:i18n": "bash scripts/i18n-audit.sh"
   },
   "keywords": [
     "zerotier",
