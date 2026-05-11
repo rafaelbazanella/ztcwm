@@ -26,7 +26,9 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
   2. When the controller has not reported a version for a member (offline / unknown), the version cell renders a neutral placeholder (e.g. `—`) instead of `undefined`, `null`, or a perpetual spinner
   3. The version field is wired through `Member` types and `memberService` rather than hand-rolled in the page component (no `as any` shortcut)
   4. The existing members-list rendering, search/filter, and IP chip-editor flows continue to pass their tests after the column addition
-**Plans**: TBD
+**Plans**: 2 plans
+  - [ ] 18-01-PLAN.md — Types + memberService.listMembersWithPeers + service tests (service-side slice; Wave 1)
+  - [ ] 18-02-PLAN.md — network-detail Status column version sub-line + page tests (UI slice; Wave 2)
 **UI hint**: yes
 
 ### Phase 19: Internationalization Sweep
@@ -58,7 +60,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 18. Member ZT Client Version | 0/0 | Not started | - |
+| 18. Member ZT Client Version | 0/2 | Planned | - |
 | 19. Internationalization Sweep | 0/0 | Not started | - |
 | 20. Shell & Users-Page Regression Fixes | 0/0 | Not started | - |
 
@@ -86,3 +88,4 @@ All three phases are independent in code terms. The chosen order (18 → 19 → 
 
 ---
 *Roadmap created: 2026-05-04*
+*Last updated: 2026-05-08 — Phase 18 planned (2 plans, 2 waves)*
