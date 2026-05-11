@@ -10,8 +10,8 @@ Requirements for the v3.1 release. Each maps to a roadmap phase.
 
 ### Member Visibility
 
-- [ ] **MEMBER-01**: Network detail screen displays each member's installed ZeroTier client version alongside the online/offline status indicator
-- [ ] **MEMBER-02**: When the client version is unavailable (member offline, controller has not reported a version yet), the version cell shows a neutral placeholder (e.g. `—`) — no `undefined`, no `null`, no perpetual spinner
+- [x] **MEMBER-01**: Network detail screen displays each member's installed ZeroTier client version alongside the online/offline status indicator — closed by Phase 18 (working tree 2026-05-11; awaiting commit)
+- [x] **MEMBER-02**: When the client version is unavailable (member offline, controller has not reported a version yet), the version cell shows a neutral placeholder (e.g. `—`) — no `undefined`, no `null`, no perpetual spinner — closed by Phase 18 (working tree 2026-05-11; awaiting commit)
 
 ### Internationalization
 
@@ -51,8 +51,8 @@ Updated by `gsd-roadmapper` on 2026-05-04.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MEMBER-01 | Phase 18 | Pending |
-| MEMBER-02 | Phase 18 | Pending |
+| MEMBER-01 | Phase 18 | Complete (2026-05-11 working tree; commits pending) |
+| MEMBER-02 | Phase 18 | Complete (2026-05-11 working tree; commits pending) |
 | I18N-01 | Phase 19 | Pending |
 | I18N-02 | Phase 19 | Pending |
 | USERS-01 | Phase 20 | Pending |
@@ -66,4 +66,4 @@ Updated by `gsd-roadmapper` on 2026-05-04.
 
 ---
 *Requirements defined: 2026-05-04*
-*Last updated: 2026-05-04 — traceability table populated by `gsd-roadmapper` (3 phases, 7/7 requirements mapped)*
+*Last updated: 2026-05-11 — MEMBER-01 and MEMBER-02 marked complete by Phase 18 (working tree only; commits pending user action — see `.planning/phases/18-member-zt-client-version/18-02-SUMMARY.md`)*
