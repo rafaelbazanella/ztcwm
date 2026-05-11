@@ -17,14 +17,14 @@ started: 2026-05-04
 See: .planning/PROJECT.md (updated 2026-05-04)
 
 **Core value:** A secure, role-based admin interface where the ZeroTier auth token never leaves the server.
-**Current focus:** Milestone v3.1 — Polish & i18n Cleanup (Phase 18 UI-SPEC approved, ready to plan)
+**Current focus:** Milestone v3.1 — Polish & i18n Cleanup (Phase 18 plans ready, ready to execute)
 
 ## Current Position
 
-Phase: 18 — Member ZT Client Version (CONTEXT.md + UI-SPEC.md ready)
-Plan: —
-Status: Awaiting `/gsd-plan-phase 18 --skip-research`
-Last activity: 2026-05-08 — Phase 18 UI-SPEC approved (6/6 dimensions PASS, zero recommendations)
+Phase: 18 — Member ZT Client Version (plans created, ready to execute)
+Plan: 0 of 2 in current phase
+Status: Ready to execute
+Last activity: 2026-05-08 — Phase 18 plans created (2 plans, 2 waves; planner replanned from scratch after escape-sequence convention issue with the first attempt was traced and isolated)
 
 Progress: [░░░░░░░░░░] 0% (0/3 phases complete)
 
@@ -64,6 +64,7 @@ v3.1-specific decisions still pending until plan-phase:
 - Milestone v3.1 created (2026-05-04): Polish & i18n Cleanup. Sourced from `.TODO.md` (4 items: member ZT version, i18n audit, Users-page Lucide icons, navbar layout fix).
 - Roadmap created (2026-05-04): 3 phases derived from 7 requirements. Phase 18 (member version), Phase 19 (i18n sweep), Phase 20 (shell + Users-page regression fixes). Phase numbering continues from Phase 17 of v3.0.
 - Phase 18 UI-SPEC approved (2026-05-08): visual contract locked — single new token `--space-xs`, single muted color, mono font for version literal, anchor verified at `network-detail.ts:519-523` (existing `<zt-badge>` preserved as status anchor; researcher noted CONTEXT prose described a dot-prefix but the real render is the badge — UI-SPEC honors intent of D-01/D-03 without re-deciding).
+- Phase 18 plans created (2026-05-08): 2 plans across 2 waves (18-01 service-layer types+method, 18-02 page render+tests). First plan-phase attempt hit a recurring escape-sequence-vs-literal-glyph mismatch in test-body assertions across 3 revision iterations; root cause was the sub-agent confusing `'·'` (1-byte literal codepoint) with `'·'` (6-byte escape sequence) at the markdown-authoring layer. Second attempt with explicit upfront guidance (and a fresh agent context) produced clean plans on first pass.
 
 ### Pending Todos
 
@@ -82,5 +83,5 @@ None. All seven v3.1 requirements are well-scoped polish items with no external 
 ## Session Continuity
 
 Last session: 2026-05-08
-Stopped at: Phase 18 UI-SPEC approved (6/6 dimensions PASS); ready for `/gsd-plan-phase 18 --skip-research`
-Resume file: .planning/phases/18-member-zt-client-version/18-UI-SPEC.md
+Stopped at: Phase 18 plans committed (2 plans, 2 waves); ready for `/gsd-execute-phase 18`
+Resume file: .planning/phases/18-member-zt-client-version/18-01-PLAN.md
