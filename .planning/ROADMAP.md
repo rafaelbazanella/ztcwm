@@ -40,7 +40,9 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
   2. User-visible backend response messages (validation errors, audit-log lines surfaced via the UI) read as English in the rendered toast/inline error
   3. No new i18n framework is introduced — strings remain inline literals (per Out-of-Scope: no runtime locale switching)
   4. Existing test suites continue to pass after the string sweep (test assertions referencing prior copy are updated in the same change)
-**Plans**: TBD
+**Plans**: 2 plans
+  - [ ] 19-01-PLAN.md — Audit script (src/scripts/i18n-audit.sh) + opt-in audit:i18n npm row + capture run output (Wave 1)
+  - [ ] 19-02-PLAN.md — Audit report (19-AUDIT.md) + 62-row page-by-role walkthrough sign-off (Wave 2, depends on 19-01)
 **UI hint**: yes
 
 ### Phase 20: Shell & Users-Page Regression Fixes
@@ -61,7 +63,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 18. Member ZT Client Version | 2/2 | ✓ Complete (verified) | 2026-05-11 |
-| 19. Internationalization Sweep | 0/0 | Not started | - |
+| 19. Internationalization Sweep | 0/2 | Planned | - |
 | 20. Shell & Users-Page Regression Fixes | 0/0 | Not started | - |
 
 ## Dependencies
