@@ -1,12 +1,18 @@
-import type { MemberListResponse, Member } from '../types/index.js';
+import type { MemberListResponse, Member, Peer, MemberWithPeerListResponse } from '../types/index.js';
 import { httpClient } from '../api/http-client.js';
 import { MemberService } from './member-service.js';
+import { nodeService } from '../services/node-service.js';
 
 vi.mock('../api/http-client.js', () => ({
     httpClient: { get: vi.fn(), post: vi.fn(), delete: vi.fn() },
 }));
 
+vi.mock('../services/node-service.js', () => ({
+    nodeService: { getPeers: vi.fn() },
+}));
+
 const getMock = vi.mocked(httpClient.get);
+const getPeersMock = vi.mocked(nodeService.getPeers);
 
 const networkId = 'net-001';
 
@@ -41,6 +47,20 @@ const unstableMemberResponse: MemberListResponse = {
     data: [memberAlice],
     meta: { totalCount: 1, authorizedCount: 1 },
 };
+
+function buildPeer(overrides: Partial<Peer> = {}): Peer {
+    return {
+        address: 'node-a',
+        versionMajor: 1,
+        versionMinor: 10,
+        versionRev: 6,
+        version: '1.10.6',
+        latency: 0,
+        role: 'LEAF',
+        paths: [],
+        ...overrides,
+    };
+}
 
 describe('MemberService', () => {
     let service: MemberService;
@@ -114,6 +134,94 @@ describe('MemberService', () => {
             const result = await service.listMembers(networkId);
             const ids = result.data.map((m) => m.id).sort();
             expect(ids).toEqual(['mem-a', 'mem-b']);
+        });
+    });
+
+    describe('listMembersWithPeers — merge with peer versions', () => {
+        beforeEach(() => {
+            getPeersMock.mockReset();
+        });
+
+        it('B1: surfaces version when peer entry exists with valid version', async () => {
+            getMock.mockResolvedValueOnce({
+                data: [memberAlice],
+                meta: { totalCount: 1, authorizedCount: 1 },
+            } as MemberListResponse);
+            getPeersMock.mockResolvedValueOnce([buildPeer({ address: 'node-a', version: '1.10.6' })]);
+
+            const result: MemberWithPeerListResponse = await service.listMembersWithPeers(networkId);
+
+            expect(result.data).toHaveLength(1);
+            expect(result.data[0].version).toBe('1.10.6');
+            expect(result.data[0].id).toBe('mem-a');
+            expect(result.meta).toEqual({ totalCount: 1, authorizedCount: 1 });
+        });
+
+        it('B2: version is undefined when peer entry is missing', async () => {
+            getMock.mockResolvedValueOnce({
+                data: [memberAlice],
+                meta: { totalCount: 1, authorizedCount: 1 },
+            } as MemberListResponse);
+            getPeersMock.mockResolvedValueOnce([]);
+
+            const result = await service.listMembersWithPeers(networkId);
+
+            expect(result.data[0].version).toBeUndefined();
+        });
+
+        it('B3: version is undefined when peer.version is empty string', async () => {
+            getMock.mockResolvedValueOnce({
+                data: [memberAlice],
+                meta: { totalCount: 1, authorizedCount: 1 },
+            } as MemberListResponse);
+            getPeersMock.mockResolvedValueOnce([buildPeer({ address: 'node-a', version: '' })]);
+
+            const result = await service.listMembersWithPeers(networkId);
+
+            expect(result.data[0].version).toBeUndefined();
+        });
+
+        it('B4: version is undefined when peer.version matches 0.0.0 controller noise', async () => {
+            getMock.mockResolvedValueOnce({
+                data: [memberAlice, memberBob],
+                meta: { totalCount: 2, authorizedCount: 1 },
+            } as MemberListResponse);
+            getPeersMock.mockResolvedValueOnce([
+                buildPeer({ address: 'node-a', version: '0.0.0' }),
+                buildPeer({ address: 'node-b', version: '0.0.0.123' }),
+            ]);
+
+            const result = await service.listMembersWithPeers(networkId);
+
+            expect(result.data[0].version).toBeUndefined();
+            expect(result.data[1].version).toBeUndefined();
+        });
+
+        it('B5: graceful degrade — getPeers rejection leaves all rows with version undefined', async () => {
+            getMock.mockResolvedValueOnce({
+                data: [memberAlice, memberBob],
+                meta: { totalCount: 2, authorizedCount: 1 },
+            } as MemberListResponse);
+            getPeersMock.mockRejectedValueOnce(new Error('peer-fetch boom'));
+
+            const result = await service.listMembersWithPeers(networkId);
+
+            expect(result.data).toHaveLength(2);
+            expect(result.data.every((row) => row.version === undefined)).toBe(true);
+            expect(result.meta).toEqual({ totalCount: 2, authorizedCount: 1 });
+        });
+
+        it('B6: meta is passed through from listMembers (totalCount + authorizedCount)', async () => {
+            getMock.mockResolvedValueOnce({
+                data: [memberAlice, memberBob],
+                meta: { totalCount: 2, authorizedCount: 1 },
+            } as MemberListResponse);
+            getPeersMock.mockResolvedValueOnce([]);
+
+            const result = await service.listMembersWithPeers(networkId);
+
+            expect(result.meta.totalCount).toBe(2);
+            expect(result.meta.authorizedCount).toBe(1);
         });
     });
 });
