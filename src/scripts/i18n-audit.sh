@@ -29,12 +29,12 @@ TOKEN_RE='\b(editar|excluir|salvar|cancelar|adicionar|aguarde|carregar|carregand
 hits=0
 
 echo "Pass 1: accent class"
-if LC_ALL=C grep -rE "${ACCENT_RE}" "${SRC_ROOT}" "${EXCLUDES[@]}"; then
+if LC_ALL=C.UTF-8 grep -rE "${ACCENT_RE}" "${SRC_ROOT}" "${EXCLUDES[@]}"; then
     hits=1
 fi
 
 echo "Pass 2: PT token list"
-if LC_ALL=C grep -rEi "${TOKEN_RE}" "${SRC_ROOT}" "${EXCLUDES[@]}"; then
+if LC_ALL=C.UTF-8 grep -rEi "${TOKEN_RE}" "${SRC_ROOT}" "${EXCLUDES[@]}"; then
     hits=1
 fi
 
