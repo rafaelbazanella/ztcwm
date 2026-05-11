@@ -1,0 +1,107 @@
+
+> ztcwm@1.0.0 audit:i18n
+> bash scripts/i18n-audit.sh
+
+Pass 1: accent class
+/var/www/Projects/ztcwm/src/utils/helpers.ts:    if (!epochMs) return '—';
+/var/www/Projects/ztcwm/src/services/user-service.ts:    /** Get cached role (returns 'viewer' if not loaded yet — safe default). */
+/var/www/Projects/ztcwm/src/services/member-service.ts:     * D-13: client-side merge — no new backend route.
+/var/www/Projects/ztcwm/src/services/member-service.ts:     * D-14: graceful degrade — peer-fetch failure returns members with version: undefined.
+/var/www/Projects/ztcwm/src/components/data-table.ts:            <span @click=${col.editable === 'text' || col.editable === true ? () => this.handleEditStart(rowIndex, col.key) : null}>${value ?? '—'}</span>
+/var/www/Projects/ztcwm/src/components/modal.ts:                        <button class="btn-icon" aria-label="Close dialog" @click=${this.close}>✕</button>
+/var/www/Projects/ztcwm/src/components/ip-chip-editor.ts:                            >×</button>
+/var/www/Projects/ztcwm/src/components/ip-chip-editor.ts:                    placeholder="Add IP…"
+/var/www/Projects/ztcwm/src/components/loading.ts:                <span class="spinner-label"><slot>Loading…</slot></span>
+/var/www/Projects/ztcwm/src/types/zerotier.ts:/** Application configuration (theme preference only — ZT token is server-side) */
+/var/www/Projects/ztcwm/src/index.html:    <title>ztcwm — ZeroTier Controller Web Manager</title>
+/var/www/Projects/ztcwm/src/index.html:        /* MIRROR-START — sole legal home for boot-time literals OUTSIDE theme.ts/shared.ts.
+/var/www/Projects/ztcwm/src/index.html:           — the runtime toggle drives :host([theme='light']) inside Lit shadow trees, this
+/var/www/Projects/ztcwm/src/server/index.ts:    // Logout endpoint exempt (logging out is inherently safe — CSRF logout is a nuisance, not a risk)
+/var/www/Projects/ztcwm/src/server/index.ts:// 10. ZT API proxy — typed routes + admin wildcard
+/var/www/Projects/ztcwm/src/server/routes/users.ts:    // GET /users — list all users (no password hashes)
+/var/www/Projects/ztcwm/src/server/routes/users.ts:    // POST /users — create new user with temporary password
+/var/www/Projects/ztcwm/src/server/routes/users.ts:    // PUT /users/:id/role — change user role
+/var/www/Projects/ztcwm/src/server/routes/users.ts:            return reply.code(403).send({ error: 'Cannot change role — this is the last admin account' });
+/var/www/Projects/ztcwm/src/server/routes/users.ts:    // PATCH /users/:id/username — change username (admin only)
+/var/www/Projects/ztcwm/src/server/routes/users.ts:        // D-06: structured audit log line — single fastify.log.info per successful rename
+/var/www/Projects/ztcwm/src/server/routes/users.ts:    // DELETE /users/:id — delete user
+/var/www/Projects/ztcwm/src/server/routes/users.ts:    // POST /users/:id/reset-password — reset user password (admin only)
+/var/www/Projects/ztcwm/src/server/routes/users.ts:    // POST /auth/change-password — any authenticated user changes own password
+/var/www/Projects/ztcwm/src/server/routes/setup.ts:    // GET /setup/status — always public, no lockout
+/var/www/Projects/ztcwm/src/server/routes/setup.ts:    // POST /setup/admin — create first admin account
+/var/www/Projects/ztcwm/src/server/routes/setup.ts:    // POST /setup/zt-config — save encrypted ZT configuration
+/var/www/Projects/ztcwm/src/server/routes/setup.ts:    // POST /setup/test-connection — test ZT controller reachability
+/var/www/Projects/ztcwm/src/server/routes/member-ip-validator.ts:    // Handle embedded IPv4 (e.g. ::ffff:10.0.0.1) — convert tail to two hex groups
+/var/www/Projects/ztcwm/src/server/routes/api.ts:    // Health check — verifies server is running and database is accessible
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:        // ztFetch-generated errors (502/503/504) already have proper messages — pass through
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 1. GET /status — node status
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 2. GET /peer — list peers
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 3. GET /peer/:address — get peer
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 4. GET /controller — controller status
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 5. GET /controller/network — list network IDs
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 6. GET /controller/network/:networkId — get network
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 7. POST /controller/network — create network
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 8. POST /controller/network/:networkId — update network
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 9. DELETE /controller/network/:networkId — delete network
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 10. GET /controller/network/:networkId/member — list member IDs
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 11. GET /controller/network/:networkId/member/:memberId — get member
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 12. POST /controller/network/:networkId/member/:memberId — update member
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:                return reply.code(502).send({ error: 'Network has no routes — cannot validate IP assignments' });
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 13. GET /unstable/controller/network — list networks with metadata
+/var/www/Projects/ztcwm/src/server/routes/zt-proxy.ts:    // 14. GET /unstable/controller/network/:networkId/member — list members with metadata
+/var/www/Projects/ztcwm/src/server/routes/auth.ts:    // POST /login — authenticate user and create session
+/var/www/Projects/ztcwm/src/server/routes/auth.ts:    // DELETE /auth/logout — destroy session
+/var/www/Projects/ztcwm/src/server/routes/auth.ts:    // GET /auth/me — return current authenticated user
+/var/www/Projects/ztcwm/src/server/routes/auth.ts:    // GET /csrf-token — generate and return CSRF token
+/var/www/Projects/ztcwm/src/app.ts:            // Check setup status first — redirect to /setup if needed
+/var/www/Projects/ztcwm/src/app.ts:            // Check authentication — redirect to /login if not authenticated
+/var/www/Projects/ztcwm/src/pages/users.ts:                    const editTitle = editDisabled ? 'Cannot edit user — this is the last admin account' : 'Edit user';
+/var/www/Projects/ztcwm/src/pages/users.ts:                    const resetTitle = isSelf ? 'Cannot reset your own password — use Change Password in Settings' : 'Reset password';
+/var/www/Projects/ztcwm/src/pages/users.ts:                                aria-label=${editDisabled ? 'Cannot edit user — last admin account' : 'Edit user'}
+/var/www/Projects/ztcwm/src/pages/users.ts:                                aria-label=${resetDisabled ? 'Cannot reset your own password — use Settings' : `Reset password for ${user.username}`}
+/var/www/Projects/ztcwm/src/pages/users.ts:    // ─── Create Modal ──────────────────────────────────────────────
+/var/www/Projects/ztcwm/src/pages/users.ts:    // ─── Credential Modal ──────────────────────────────────────────
+/var/www/Projects/ztcwm/src/pages/users.ts:    // ─── Edit User Modal ───────────────────────────────────────────
+/var/www/Projects/ztcwm/src/pages/users.ts:        // Client-side username validation — only when username is changing.
+/var/www/Projects/ztcwm/src/pages/users.ts:                    return;  // STOP — do not attempt role write
+/var/www/Projects/ztcwm/src/pages/users.ts:            // Success — single toast, single reload, close modal.
+/var/www/Projects/ztcwm/src/pages/users.ts:    // ─── Reset Password Modal ──────────────────────────────────────
+/var/www/Projects/ztcwm/src/pages/users.ts:    // ─── Delete Modal ──────────────────────────────────────────────
+/var/www/Projects/ztcwm/src/pages/users.ts:    // ─── Render ────────────────────────────────────────────────────
+/var/www/Projects/ztcwm/src/pages/users.ts:                            title=${this.selectedUser.id === this.currentUserId && this.isLastAdminFlag ? 'Cannot change role — this is the last admin account' : ''}>
+/var/www/Projects/ztcwm/src/pages/members.ts:                return ips?.length ? ips.join(', ') : '—';
+/var/www/Projects/ztcwm/src/pages/api-explorer.ts:                    // Continue without CSRF — server will reject if needed
+/var/www/Projects/ztcwm/src/pages/api-explorer.ts:                                    ${this.loading ? 'Sending…' : 'Send'}
+/var/www/Projects/ztcwm/src/pages/setup.ts:                            ${step.num < this.currentStep ? '✓' : ''}
+/var/www/Projects/ztcwm/src/pages/setup.ts:                                ${step.status === 'pass' ? '✓' : step.status === 'fail' ? '✕' : ''}
+/var/www/Projects/ztcwm/src/pages/controllers.ts:                        value=${String(this.controllerStatus?.apiVersion ?? '—')}
+/var/www/Projects/ztcwm/src/pages/controllers.ts:                                <span class="info-value">${this.nodeStatus.config?.settings?.primaryPort ?? '—'}</span>
+/var/www/Projects/ztcwm/src/pages/controllers.ts:                                                <td>${p.version || '—'}</td>
+/var/www/Projects/ztcwm/src/pages/controllers.ts:                                                <td>${p.latency >= 0 ? p.latency + 'ms' : '—'}</td>
+/var/www/Projects/ztcwm/src/pages/pending.ts:                        <span class="member-name">${m.name || '—'}</span>
+/var/www/Projects/ztcwm/src/pages/pending.ts:                        <span class="member-id">${m.nodeId || m.id || '—'}</span>
+/var/www/Projects/ztcwm/src/pages/pending.ts:                        <span class="member-ips">${m.ipAssignments?.join(', ') || '—'}</span>
+/var/www/Projects/ztcwm/src/pages/dashboard.ts:                <span class="info-value">${this.nodeStatus.config?.settings?.primaryPort ?? '—'}</span>
+/var/www/Projects/ztcwm/src/pages/networks.ts:                        ${this.creating ? 'Creating…' : 'Create'}
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:                                ">—</span>`
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:                    const display = rawVersion && !/^0\.0\.0(\.|$)/.test(rawVersion) ? `v${rawVersion}` : '—';
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:                    if (!addr) return html`<span>—</span>`;
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:        // Optimistic update — immutable replace so Lit reacts.
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:                            <div class="detail-value">${n.name || '—'}</div>
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:                            <div class="detail-value">${n.creationTime ? new Date(n.creationTime).toLocaleDateString() : '—'}</div>
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:                            <span>${n.multicastLimit ?? '—'}</span>
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:                                        html`<span class="ip-tag">${pool.ipRangeStart} – ${pool.ipRangeEnd}</span>`)
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:                            placeholder="Search by name, ID, or IP…"
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:                        ${this.savingNetwork ? 'Saving…' : 'Save'}
+/var/www/Projects/ztcwm/src/pages/network-detail.ts:            <!-- Edit IP Assignments Modal (Plan 14-04 — replaces inline editor) -->
+Pass 2: PT token list
+Audit FAILED — see hits above. Fix per D-08 (inline replacement).
+exit=1
+
+> ztcwm@1.0.0 audit:i18n
+> bash scripts/i18n-audit.sh
+
+Pass 1: accent class
+Pass 2: PT token list
+Audit clean — no PT strings found in src/ under D-01/D-02 filters.
+exit=0
