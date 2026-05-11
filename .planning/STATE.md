@@ -1,13 +1,17 @@
 ---
+gsd_state_version: 1.0
 milestone: v3.1
-name: Polish & i18n Cleanup
-status: in-progress
+milestone_name: milestone
+status: executing
+stopped_at: Phase 19 context gathered. Decisions D-01..D-10 captured in `.planning/phases/19-internationalization-sweep/19-CONTEXT.md`. Codebase scout already confirmed zero Portuguese strings in `src/` — Phase 19 will deliver an audit script + audit report + closure note rather than translation diffs.
+last_updated: "2026-05-11T18:09:59.239Z"
+last_activity: 2026-05-11 -- Phase 19 planning complete
 progress:
-  phases_total: 3
-  phases_completed: 1
-  plans_total: 2
-  plans_completed: 2
-started: 2026-05-04
+  total_phases: 3
+  completed_phases: 1
+  total_plans: 4
+  completed_plans: 2
+  percent: 50
 ---
 
 # Project State
@@ -23,14 +27,15 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 Phase: 19 — Internationalization Sweep (context gathered; ready for planning)
 Plan: 0 of TBD in current phase
-Status: Phase 18 done; Phase 19 CONTEXT.md captured. Next: `/gsd-plan-phase 19`.
-Last activity: 2026-05-11 — Phase 19 context captured. Scout found zero PT strings in `src/`; phase shaped as verify-and-close (audit script + manual walkthrough + audit report); fix-strategy fallback is pure inline replacement (closes STATE.md pending entry on dictionary-helper vs. inline).
+Status: Ready to execute
+Last activity: 2026-05-11 -- Phase 19 planning complete
 
 Progress: [███░░░░░░░] 33% (1/3 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
+
 - Total plans completed: 2 (this milestone — 18-01 + 18-02 both committed and verified)
 - Average duration: ~33 min (18-01 ≈22 min; 18-02 ≈45 min — half of 18-02 spent diagnosing tool-layer escape-sequence collapse, see Decisions)
 - Total execution time: ~67 min
@@ -41,6 +46,7 @@ Progress: [███░░░░░░░] 33% (1/3 phases complete)
 | 18-02 | ~45 min | 2 | 2 | 2026-05-11 |
 
 **Recent Trend:**
+
 - Trend: Phase 18 closing out cleanly; the tool-layer Unicode-escape limitation discovered in 18-02 is now a known pattern — future tests should prefer `String.fromCharCode(0x…)` constants over `\u…` escape literals in this environment.
 
 ## Accumulated Context
