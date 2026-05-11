@@ -21,10 +21,10 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 18 — Member ZT Client Version (✓ COMPLETE, verified)
-Plan: 2 of 2 in current phase
-Status: Phase 18 done; ready for Phase 19
-Last activity: 2026-05-11 — Phase 18 verified (4/4 ROADMAP success criteria, both REQs satisfied, all key links wired). VERIFICATION.md committed.
+Phase: 19 — Internationalization Sweep (context gathered; ready for planning)
+Plan: 0 of TBD in current phase
+Status: Phase 18 done; Phase 19 CONTEXT.md captured. Next: `/gsd-plan-phase 19`.
+Last activity: 2026-05-11 — Phase 19 context captured. Scout found zero PT strings in `src/`; phase shaped as verify-and-close (audit script + manual walkthrough + audit report); fix-strategy fallback is pure inline replacement (closes STATE.md pending entry on dictionary-helper vs. inline).
 
 Progress: [███░░░░░░░] 33% (1/3 phases complete)
 
@@ -63,8 +63,15 @@ v3.1-specific decisions captured (locked):
 
 v3.1-specific decisions still pending until plan-phase:
 
-- Phase 19: Strategy for the i18n sweep — pure inline-string replacement vs. light dictionary helper. (Out-of-Scope already excludes runtime locale switching.)
 - Phase 20: Where exactly does `<zt-navbar>` move to in `src/app.ts` relative to `<div id="outlet">` and `<div class="brand">`?
+
+Phase 19 decisions captured in `.planning/phases/19-internationalization-sweep/19-CONTEXT.md` (2026-05-11):
+
+- Phase 19 (D-01/D-02): Audit scope = I18N-01 surfaces + a11y metadata (aria-label, title, placeholder, alt); excludes console.*, fastify.log.*, tests, comments, .planning/, docs/.
+- Phase 19 (D-03/D-04): Two-pass audit — automated grep (accent class + token list) plus manual page × role walkthrough on running app.
+- Phase 19 (D-05/D-06/D-07): Three artifacts — `src/scripts/i18n-audit.sh` (re-runnable, opt-in), `19-AUDIT.md` (scope + commands + walkthrough sign-off + findings), closure note in `19-VERIFICATION.md`. NOT wired to CI (per OOS). No new `*.test.ts`.
+- Phase 19 (D-08/D-09/D-10): Fix strategy if PT found = pure inline replacement (no dictionary helper, no `strings.ts`); replacement copy follows existing English conventions; `.TODO.md` not in audit scope.
+- Phase 19 scout (2026-05-11): zero PT strings found in `src/` under D-01 filter; phase is shaped as verify-and-close.
 
 ### Roadmap Evolution
 
@@ -90,5 +97,5 @@ None. All seven v3.1 requirements are well-scoped polish items with no external 
 ## Session Continuity
 
 Last session: 2026-05-11
-Stopped at: Phase 18 working tree complete. Plan 18-02 edits to `src/pages/network-detail.ts` and `src/pages/network-detail.test.ts` are written but uncommitted because the environment sandbox blocked `git commit`. User must run the three-commit sequence in `.planning/phases/18-member-zt-client-version/18-02-SUMMARY.md` → "Recommended commit sequence" before advancing to Phase 19.
-Resume file: .planning/phases/18-member-zt-client-version/18-02-SUMMARY.md (then proceed to `/gsd-research 19` for Phase 19)
+Stopped at: Phase 19 context gathered. Decisions D-01..D-10 captured in `.planning/phases/19-internationalization-sweep/19-CONTEXT.md`. Codebase scout already confirmed zero Portuguese strings in `src/` — Phase 19 will deliver an audit script + audit report + closure note rather than translation diffs.
+Resume file: .planning/phases/19-internationalization-sweep/19-CONTEXT.md (then proceed to `/gsd-plan-phase 19`)
