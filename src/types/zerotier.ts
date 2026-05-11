@@ -204,6 +204,21 @@ export interface MemberListResponse {
     };
 }
 
+/** Member enriched with a ZT peer-derived version string (Phase 18 view-shape) */
+export interface MemberWithPeer extends Member {
+    /** Raw peer.version when available; undefined for offline / unreported / `0.0.0.x` per D-07 */
+    version?: string;
+}
+
+/** Unstable API - member-with-peer list response (mirrors MemberListResponse meta) */
+export interface MemberWithPeerListResponse {
+    data: MemberWithPeer[];
+    meta: {
+        totalCount: number;
+        authorizedCount: number;
+    };
+}
+
 /** API error */
 export interface ApiError {
     status: number;
