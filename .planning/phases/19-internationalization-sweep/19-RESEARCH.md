@@ -564,7 +564,7 @@ Each row below has been visually confirmed against the running app at `http://lo
 ```
 
 **Notes for plan-phase:**
-- The walkthrough matrix above has **62 rows**. Plan-phase may collapse the role dimension where role doesn't change rendered text (e.g., /logs renders the same content for all three roles — could collapse the three rows to one "all roles" row). Recommendation: keep them separate; the explicit per-role row is a forcing function to actually test each role rather than assume they all render identically.
+- The walkthrough matrix above has **69 rows**. Plan-phase may collapse the role dimension where role doesn't change rendered text (e.g., /logs renders the same content for all three roles — could collapse the three rows to one "all roles" row). Recommendation: keep them separate; the explicit per-role row is a forcing function to actually test each role rather than assume they all render identically.
 - Some rows require seeding test data (e.g., duplicate usernames, out-of-route IPs). Plan-phase should call this out as a prerequisite.
 
 ## Walkthrough Matrix (Reference)
@@ -911,27 +911,27 @@ Files that don't exist yet and MUST be created during phase execution:
 
 If both rows in this table remain LOW risk, planner can proceed without re-asking the user. No items need user confirmation before execution.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Does plan-phase want a `find … | xargs grep` shape or the `grep -r` shape?**
    - What we know: the locked D-03 commands use `grep -r` (recursive). Both forms produce the same hit set under the D-02 exclusions.
    - What's unclear: nothing functionally. The `-r` form is simpler.
-   - Recommendation: use `grep -r` (matches D-03 verbatim). The `find … | xargs grep` alternative is only useful if cross-shell quirks bite, which they shouldn't for these regexes.
+   - RESOLVED: Recommendation: use `grep -r` (matches D-03 verbatim). The `find … | xargs grep` alternative is only useful if cross-shell quirks bite, which they shouldn't for these regexes.
 
 2. **Should the script also run on `index.html`?**
    - What we know: D-01 enumerates Lit templates and accessibility metadata. `index.html` is the SPA boot HTML and contains the page `<title>ztcwm — ZeroTier Controller Web Manager</title>` and a comment-fenced `MIRROR-START`/`MIRROR-END` block of hex literals.
    - What's unclear: technically `index.html` ships to users (the `<title>` is in the browser tab), so it's user-visible.
-   - Recommendation: include `--include="*.html"` (matches D-03 verbatim — the locked regex already includes it). The fenced MIRROR block contains only `#NNNNNN` hex values, no PT risk. Verified.
+   - RESOLVED: Recommendation: include `--include="*.html"` (matches D-03 verbatim — the locked regex already includes it). The fenced MIRROR block contains only `#NNNNNN` hex values, no PT risk. Verified.
 
 3. **What if the manual walkthrough finds a PT string that the script doesn't?**
    - What we know: this is exactly why D-04 mandates the manual pass. A toast string that's correctly English in source but PT-translated by accident (e.g., via a runtime template-string interpolation pulling from a server `error` field that the audit missed) would only surface in the walkthrough.
    - What's unclear: scenario is hypothetical given scout finding.
-   - Recommendation: document the finding in `19-AUDIT.md § Findings` with the exact source line and apply D-08 (inline fix). Also note in the report that the script regex could be extended for similar future cases.
+   - RESOLVED: Recommendation: document the finding in `19-AUDIT.md § Findings` with the exact source line and apply D-08 (inline fix). Also note in the report that the script regex could be extended for similar future cases.
 
 4. **Does the planner need to test the audit script itself (i.e., does it correctly fail when given a PT string)?**
    - What we know: D-07 forbids new `*.test.ts` for i18n.
    - What's unclear: a one-time manual sanity check (drop a PT string into a temp file, run script, see it fail, remove file) is not a `*.test.ts` and is not forbidden.
-   - Recommendation: plan-phase can optionally include a "smoke test" step where the executor briefly adds `// Salvar` to a non-test source file, runs the audit, confirms exit `1`, removes the comment, and runs again to confirm exit `0`. This proves the script is wired correctly. **But** even this is technically a D-02 comment exclusion, so the PT string would need to be in a real template literal. Or skip the smoke test entirely and trust the inline regex correctness — that's also acceptable.
+   - RESOLVED: Recommendation: plan-phase can optionally include a "smoke test" step where the executor briefly adds `// Salvar` to a non-test source file, runs the audit, confirms exit `1`, removes the comment, and runs again to confirm exit `0`. This proves the script is wired correctly. **But** even this is technically a D-02 comment exclusion, so the PT string would need to be in a real template literal. Or skip the smoke test entirely and trust the inline regex correctness — that's also acceptable.
 
 ## Environment Availability
 
@@ -957,7 +957,7 @@ If both rows in this table remain LOW risk, planner can proceed without re-askin
 - Architecture (two-pass shell audit + manual walkthrough): HIGH — exactly mirrors locked D-03 / D-04 methodology
 - Audit script shape (bash, POSIX-ERE, no PCRE): HIGH — verified on machine; locked regexes use only POSIX-ERE
 - PT token list additions (3 tokens): HIGH — each justified, zero false positives against current `src/`
-- Walkthrough matrix (62 rows): HIGH — derived from `src/router/index.ts` × `src/services/user-service.ts` role guards × verified rendered-text sites in source
+- Walkthrough matrix (69 rows): HIGH — derived from `src/router/index.ts` × `src/services/user-service.ts` role guards × verified rendered-text sites in source
 - Pitfalls + risk surfaces: HIGH — every file:line reference verified in source on 2026-05-11
 - Validation architecture: HIGH — nyquist_validation enabled in config; section structure follows template
 
