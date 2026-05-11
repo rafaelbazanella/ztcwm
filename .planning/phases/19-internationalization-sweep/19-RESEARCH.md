@@ -370,7 +370,7 @@ The script is therefore opt-in only, satisfying D-06.
 
 ### D-03 seed list — verified sufficient
 
-CONTEXT.md D-03 locks 41 tokens. The researcher reviewed each in terms of (a) is it the canonical Portuguese form a developer writing PT text in this codebase would use, and (b) does it overlap with common English words (false-positive risk).
+CONTEXT.md D-03 locks 40 tokens. The researcher reviewed each in terms of (a) is it the canonical Portuguese form a developer writing PT text in this codebase would use, and (b) does it overlap with common English words (false-positive risk).
 
 **No removals.** Every seed token is well-chosen for the domain (admin / SPA / ZeroTier).
 
@@ -390,7 +390,7 @@ CONTEXT.md D-03 locks 41 tokens. The researcher reviewed each in terms of (a) is
 
 `editar | excluir | salvar | cancelar | adicionar | aguarde | carregar | carregando | sair | entrar | voltar | pr[oó]ximo | anterior | pesquisar | buscar | mostrando | nenhum | vazio | confirmar | a[cç][õo]es | sucesso | aviso | usu[aá]rio | senha | pendente | conex[aã]o | inv[aá]lido | obrigat[oó]rio | falha | conectado | desconectado | rede | membro | gerenciar | administrador | configura[cç] | controlador | painel | in[íi]cio | recarregar | sincronizar | enviar | selecionar`
 
-(41 seed + 3 added = 44 tokens.)
+(40 seed + 3 added = 43 tokens.)
 
 ### Independent re-verification (HIGH confidence)
 
@@ -438,7 +438,7 @@ Out of scope (per 19-CONTEXT.md D-02):
 ## Methodology (per 19-CONTEXT.md D-03 / D-04)
 
 Two-pass audit:
-1. Automated grep — `src/scripts/i18n-audit.sh` runs the locked accent-class regex and the locked PT token-list regex (44 tokens; seed list extended by `carregando`, `enviar`, `selecionar` per 19-RESEARCH.md § "PT Token List Audit").
+1. Automated grep — `src/scripts/i18n-audit.sh` runs the locked accent-class regex and the locked PT token-list regex (43 tokens; seed list extended by `carregando`, `enviar`, `selecionar` per 19-RESEARCH.md § "PT Token List Audit").
 2. Manual page-by-role walkthrough on the running app (`cd src && npm run dev`), exercising real toast and 4xx error paths.
 
 ## Automated Pass — Script Invocation

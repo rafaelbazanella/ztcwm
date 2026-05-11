@@ -42,7 +42,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
   4. Existing test suites continue to pass after the string sweep (test assertions referencing prior copy are updated in the same change)
 **Plans**: 2 plans
   - [ ] 19-01-PLAN.md — Audit script (src/scripts/i18n-audit.sh) + opt-in audit:i18n npm row + capture run output (Wave 1)
-  - [ ] 19-02-PLAN.md — Audit report (19-AUDIT.md) + 62-row page-by-role walkthrough sign-off (Wave 2, depends on 19-01)
+  - [ ] 19-02-PLAN.md — Audit report (19-AUDIT.md) + 69-row page-by-role walkthrough sign-off (Wave 2, depends on 19-01)
 **UI hint**: yes
 
 ### Phase 20: Shell & Users-Page Regression Fixes
