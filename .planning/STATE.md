@@ -4,7 +4,7 @@ name: Polish & i18n Cleanup
 status: in-progress
 progress:
   phases_total: 3
-  phases_completed: 0
+  phases_completed: 1
   plans_total: 2
   plans_completed: 2
 started: 2026-05-04
@@ -21,24 +21,24 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 18 — Member ZT Client Version (COMPLETE — both plans landed in working tree; user must commit Plan 02)
+Phase: 18 — Member ZT Client Version (✓ COMPLETE, verified)
 Plan: 2 of 2 in current phase
-Status: Phase 18 done (pending commits for Plan 02); ready for Phase 19
-Last activity: 2026-05-11 — Plan 18-02 UI render slice completed in working tree (network-detail.ts + tests). Commits NOT yet created by executor (sandbox blocked `git commit`); see 18-02-SUMMARY.md "Recommended commit sequence" for the three-commit sequence the user must run.
+Status: Phase 18 done; ready for Phase 19
+Last activity: 2026-05-11 — Phase 18 verified (4/4 ROADMAP success criteria, both REQs satisfied, all key links wired). VERIFICATION.md committed.
 
-Progress: [███░░░░░░░] 33% (0/3 phases complete — Phase 18 working tree done, awaiting user commits to finalize)
+Progress: [███░░░░░░░] 33% (1/3 phases complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 2 (this milestone — 18-01 + 18-02; 18-02 working tree only, awaiting user commit)
+- Total plans completed: 2 (this milestone — 18-01 + 18-02 both committed and verified)
 - Average duration: ~33 min (18-01 ≈22 min; 18-02 ≈45 min — half of 18-02 spent diagnosing tool-layer escape-sequence collapse, see Decisions)
 - Total execution time: ~67 min
 
 | Phase-Plan | Duration | Tasks | Files Modified | Completed |
 |------------|----------|-------|----------------|-----------|
 | 18-01 | ~22 min | 2 | 3 | 2026-05-11 |
-| 18-02 | ~45 min | 2 | 2 | 2026-05-11 (working tree; not yet committed) |
+| 18-02 | ~45 min | 2 | 2 | 2026-05-11 |
 
 **Recent Trend:**
 - Trend: Phase 18 closing out cleanly; the tool-layer Unicode-escape limitation discovered in 18-02 is now a known pattern — future tests should prefer `String.fromCharCode(0x…)` constants over `\u…` escape literals in this environment.
