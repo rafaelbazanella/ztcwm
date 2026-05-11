@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: executing
-stopped_at: Phase 19 context gathered. Decisions D-01..D-10 captured in `.planning/phases/19-internationalization-sweep/19-CONTEXT.md`. Codebase scout already confirmed zero Portuguese strings in `src/` — Phase 19 will deliver an audit script + audit report + closure note rather than translation diffs.
-last_updated: "2026-05-11T18:09:59.239Z"
-last_activity: 2026-05-11 -- Phase 19 planning complete
+stopped_at: Phase 19 plan 01 complete — i18n audit script (LOCKED D-03 regex with C.UTF-8 locale amendment) + opt-in npm wiring delivered; audit exits 0 on current tree; verbatim run output captured for Plan 19-02 consumption.
+last_updated: "2026-05-11T18:45:00.000Z"
+last_activity: 2026-05-11 -- Phase 19 plan 01 complete (audit script + npm wiring + clean run captured; D-03 regex locale amended C → C.UTF-8 per user decision)
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 4
-  completed_plans: 2
-  percent: 50
+  completed_plans: 3
+  percent: 67
 ---
 
 # Project State
@@ -25,25 +25,26 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 19 — Internationalization Sweep (context gathered; ready for planning)
-Plan: 0 of TBD in current phase
-Status: Ready to execute
-Last activity: 2026-05-11 -- Phase 19 planning complete
+Phase: 19 — Internationalization Sweep (executing)
+Plan: 1 of 2 in current phase
+Status: Executing — Plan 19-02 next
+Last activity: 2026-05-11 -- Phase 19 plan 01 complete (audit script + npm wiring + clean run captured; D-03 regex locale amended C → C.UTF-8 per user decision)
 
-Progress: [███░░░░░░░] 33% (1/3 phases complete)
+Progress: [███████░░░] 67% (1/3 phases complete; 3/4 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 2 (this milestone — 18-01 + 18-02 both committed and verified)
-- Average duration: ~33 min (18-01 ≈22 min; 18-02 ≈45 min — half of 18-02 spent diagnosing tool-layer escape-sequence collapse, see Decisions)
-- Total execution time: ~67 min
+- Total plans completed: 3 (this milestone — 18-01, 18-02, 19-01 all committed and verified)
+- Average duration: ~39 min (18-01 ≈22 min; 18-02 ≈45 min; 19-01 ≈50 min — second half of 19-01 spent on the D-03 locale amendment decision checkpoint)
+- Total execution time: ~117 min
 
 | Phase-Plan | Duration | Tasks | Files Modified | Completed |
 |------------|----------|-------|----------------|-----------|
 | 18-01 | ~22 min | 2 | 3 | 2026-05-11 |
 | 18-02 | ~45 min | 2 | 2 | 2026-05-11 |
+| 19-01 | ~50 min | 3 | 3 | 2026-05-11 |
 
 **Recent Trend:**
 
@@ -66,6 +67,7 @@ v3.1-specific decisions captured (locked):
 - Phase 18 (D-13/D-14): Client-side merge with graceful degrade on peer-fetch failure; no new backend route.
 - Phase 18-02 execution: Status column width 180px (mid-range of UI-SPEC 170-190px estimate, multiple of 4); silent degrade on peer-fetch failure (no toast); aria-label deferred to a future plan; existing `<zt-badge>` preserved as status anchor with version sub-line appended.
 - Phase 18-02 environment: tool-layer cannot emit single-backslash unicode escape sequences in test source; pattern is now `const X = String.fromCharCode(0x…);` for non-ASCII glyphs in tests. See 18-02-SUMMARY.md Deviations § Test glyph encoding.
+- Phase 19 (D-03 amendment, 2026-05-11): script locale prefix `LC_ALL=C` → `LC_ALL=C.UTF-8` to avoid GNU grep 3.11 byte-class overlap with Unicode punctuation (em-dash, ellipsis, checkmarks produced 94 false positives under plain `LC_ALL=C`). Regex characters unchanged; semantic intent preserved. See 19-01-SUMMARY.md Deviations § Decision-checkpoint deviation. RESEARCH.md § Pattern 1 should be amended in a future cleanup if Phase 19-02 doesn't fold it in.
 
 v3.1-specific decisions still pending until plan-phase:
 
@@ -103,5 +105,5 @@ None. All seven v3.1 requirements are well-scoped polish items with no external 
 ## Session Continuity
 
 Last session: 2026-05-11
-Stopped at: Phase 19 context gathered. Decisions D-01..D-10 captured in `.planning/phases/19-internationalization-sweep/19-CONTEXT.md`. Codebase scout already confirmed zero Portuguese strings in `src/` — Phase 19 will deliver an audit script + audit report + closure note rather than translation diffs.
-Resume file: .planning/phases/19-internationalization-sweep/19-CONTEXT.md (then proceed to `/gsd-plan-phase 19`)
+Stopped at: Phase 19 plan 01 complete — i18n audit script (LOCKED D-03 regex with C.UTF-8 locale amendment) + opt-in npm wiring delivered; audit exits 0 on current tree; verbatim run output captured for Plan 19-02 consumption.
+Resume file: .planning/phases/19-internationalization-sweep/19-02-PLAN.md (then proceed to `/gsd-execute-phase 19` for plan 19-02 — page-by-role walkthrough sign-off + audit report)
