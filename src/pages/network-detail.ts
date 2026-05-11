@@ -7,7 +7,7 @@ import { theme } from '../styles/theme.js';
 import { sharedStyles } from '../styles/shared.js';
 import { networkService, memberService, logService, toastService, nodeService, userService } from '../services/index.js';
 import { filterMembers, isIPv4 } from '../utils/helpers.js';
-import type { Network, Member, NetworkUpdate, MemberUpdate } from '../types/index.js';
+import type { Network, Member, MemberWithPeer, NetworkUpdate, MemberUpdate } from '../types/index.js';
 import type { DataTableColumn } from '../components/data-table.js';
 import '../components/navbar.js';
 import '../components/badge.js';
@@ -49,7 +49,7 @@ export function diffSingleIp(prev: string[], next: string[]): string | null {
 export class PageNetworkDetail extends LitElement {
     @state() networkId = '';
     @state() private network: Network | null = null;
-    @state() private members: Member[] = [];
+    @state() private members: MemberWithPeer[] = [];
     @state() private loading = true;
     @state() private showDelete = false;
     @state() private editName = '';
@@ -319,6 +319,19 @@ export class PageNetworkDetail extends LitElement {
                 color: var(--color-text-secondary);
                 font-size: var(--font-size-sm);
             }
+
+            .status-cell {
+                display: inline-flex;
+                align-items: center;
+                gap: var(--space-xs);
+            }
+
+            .status-cell .version {
+                color: var(--color-text-muted);
+                font-family: var(--font-mono);
+                font-size: var(--font-size-xs);
+                white-space: nowrap;
+            }
         `,
     ];
 
@@ -337,12 +350,12 @@ export class PageNetworkDetail extends LitElement {
         try {
             const [network, membersResult, peers] = await Promise.all([
                 networkService.getNetwork(this.networkId),
-                memberService.listMembers(this.networkId),
+                memberService.listMembersWithPeers(this.networkId),
                 nodeService.getPeers().catch(() => []),
             ]);
             this.network = network;
 
-            // Build peer info map: prefer active IPv4 path; fall back to first active path of any family (D-14, D-15)
+            // Build peer info map: prefer active IPv4 path; fall back to first active path of any family (Plan 14-03, D-15)
             const peerInfoMap = new Map<string, { physicalAddress?: string; isPhysicalAddressIPv6?: boolean; online: boolean }>();
             for (const peer of peers) {
                 const activePaths = (peer.paths ?? []).filter(p => p.active && p.address);
@@ -359,7 +372,8 @@ export class PageNetworkDetail extends LitElement {
                 peerInfoMap.set(peer.address, { physicalAddress, isPhysicalAddressIPv6, online: hasRecentActivity });
             }
 
-            // Enrich members with physicalAddress, IPv6-only flag, and online status from peers
+            // Enrich version-carrying members with physicalAddress, IPv6-only flag, and online status from peers.
+            // Version field arrives pre-merged from memberService.listMembersWithPeers (D-10 / Phase 18 / D-07 detection).
             this.members = membersResult.data.map(m => {
                 const nodeId = m.nodeId || m.id;
                 const peerInfo = peerInfoMap.get(nodeId);
@@ -369,7 +383,7 @@ export class PageNetworkDetail extends LitElement {
                     ...(peerInfo?.isPhysicalAddressIPv6 ? { isPhysicalAddressIPv6: true } : {}),
                     online: peerInfo?.online ?? false,
                 };
-            }) as Member[];
+            });
 
             this.editName = network.name || '';
             logService.info(`Loaded network ${this.networkId}`);
@@ -516,10 +530,14 @@ export class PageNetworkDetail extends LitElement {
                 },
             },
             {
-                key: 'online', label: 'Status', width: '90px', sortable: true,
-                render: (val: unknown) => {
+                key: 'online', label: 'Status', width: '180px', sortable: true,
+                render: (val: unknown, row: Record<string, unknown>) => {
                     const online = Boolean(val);
-                    return html`<zt-badge variant="${online ? 'success' : 'error'}">${online ? 'Online' : 'Offline'}</zt-badge>`;
+                    const badge = html`<zt-badge variant="${online ? 'success' : 'error'}">${online ? 'Online' : 'Offline'}</zt-badge>`;
+                    if (!online) return badge; // D-05: hide version sub-line entirely on offline rows
+                    const rawVersion = (row as { version?: string }).version;
+                    const display = rawVersion && !/^0\.0\.0(\.|$)/.test(rawVersion) ? `v${rawVersion}` : '—';
+                    return html`<span class="status-cell"><zt-badge variant="success">Online</zt-badge><span class="version">· ${display}</span></span>`;
                 },
             },
             {
