@@ -15,8 +15,8 @@ Requirements for the v3.1 release. Each maps to a roadmap phase.
 
 ### Internationalization
 
-- [ ] **I18N-01**: Every visible UI string in the SPA (components, pages, modals, toasts, error messages, button labels, table headers, empty states) is in English — no remaining Portuguese strings
-- [ ] **I18N-02**: User-visible backend response messages (validation errors, audit-log lines surfaced in the UI) are in English
+- [x] **I18N-01**: Every visible UI string in the SPA (components, pages, modals, toasts, error messages, button labels, table headers, empty states) is in English — no remaining Portuguese strings ✓ verified 2026-05-12 (Phase 19; audit script exit 0, walkthrough self-attested)
+- [x] **I18N-02**: User-visible backend response messages (validation errors, audit-log lines surfaced in the UI) are in English ✓ verified 2026-05-12 (Phase 19; src/server/routes & src/server/auth covered by D-01 grep scope)
 
 ### Users Page
 
@@ -53,8 +53,8 @@ Updated by `gsd-roadmapper` on 2026-05-04.
 |-------------|-------|--------|
 | MEMBER-01 | Phase 18 | Complete (2026-05-11 working tree; commits pending) |
 | MEMBER-02 | Phase 18 | Complete (2026-05-11 working tree; commits pending) |
-| I18N-01 | Phase 19 | Pending |
-| I18N-02 | Phase 19 | Pending |
+| I18N-01 | Phase 19 | Complete (2026-05-12) |
+| I18N-02 | Phase 19 | Complete (2026-05-12) |
 | USERS-01 | Phase 20 | Pending |
 | LAYOUT-01 | Phase 20 | Pending |
 | LAYOUT-02 | Phase 20 | Pending |

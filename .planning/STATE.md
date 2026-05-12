@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: executing
-stopped_at: Phase 19 plans complete (19-01 audit tooling + 19-02 audit report). D-04 row-by-row walkthrough was overridden via /gsd-next --force; reviewer self-signed the Sign-off block, row checkboxes were flipped in bulk under user authority. Ready for /gsd-verify-phase 19 to write 19-VERIFICATION.md (D-05.3).
-last_updated: "2026-05-12T12:00:00.000Z"
-last_activity: 2026-05-12 -- Phase 19 plans 01 + 02 complete; audit closes I18N-01 / I18N-02 with one documented deviation (D-04 walkthrough override)
+stopped_at: Phase 19 complete (verified passed). I18N-01 and I18N-02 closed. One documented override accepted by verifier (D-04 walkthrough discipline overridden via /gsd-next --force — see 19-VERIFICATION.md frontmatter `overrides:` and 19-02-SUMMARY.md Deviations). Ready for Phase 20 (Shell & Users-Page Regression Fixes).
+last_updated: "2026-05-12T12:15:00.000Z"
+last_activity: 2026-05-12 -- Phase 19 verified passed; audit closes I18N-01 / I18N-02; ready for Phase 20
 progress:
   total_phases: 3
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
   completed_plans: 4
-  percent: 80
+  percent: 67
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-04)
 
 **Core value:** A secure, role-based admin interface where the ZeroTier auth token never leaves the server.
-**Current focus:** Milestone v3.1 — Polish & i18n Cleanup (Phase 18 complete; Phase 19 next)
+**Current focus:** Milestone v3.1 — Polish & i18n Cleanup (Phases 18 + 19 complete; Phase 20 next)
 
 ## Current Position
 
-Phase: 19 — Internationalization Sweep (plans complete; awaiting verification)
-Plan: 2 of 2 in current phase
-Status: Plans complete — ready for /gsd-verify-phase 19
-Last activity: 2026-05-12 -- Phase 19 plans 01 + 02 complete; audit closes I18N-01 / I18N-02 with one documented deviation (D-04 walkthrough override via /gsd-next --force)
+Phase: 20 — Shell & Users-Page Regression Fixes (next; no CONTEXT.md yet)
+Plan: 0 of TBD in current phase
+Status: Phase 19 verified; ready for Phase 20 discuss → plan → execute
+Last activity: 2026-05-12 -- Phase 19 verified passed; audit closes I18N-01 / I18N-02; ready for Phase 20
 
-Progress: [████████░░] 80% (1/3 phases complete; 4/4 plans complete)
+Progress: [██████░░░░] 67% (2/3 phases complete; 4/4 plans complete in milestone)
 
 ## Performance Metrics
 

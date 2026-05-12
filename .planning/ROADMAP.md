@@ -12,7 +12,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 ## Phases
 
 - [x] **Phase 18: Member ZT Client Version** - Surface each member's installed ZeroTier client version next to the online indicator on the network-detail screen, with a neutral placeholder when unknown ✓ verified 2026-05-11
-- [ ] **Phase 19: Internationalization Sweep** - Standardize every visible UI string and user-facing backend message to English
+- [x] **Phase 19: Internationalization Sweep** - Standardize every visible UI string and user-facing backend message to English ✓ verified 2026-05-12
 - [ ] **Phase 20: Shell & Users-Page Regression Fixes** - Restore Lucide icons on Users-page action buttons, lift the navbar out of the routed outlet, and align it with the brand logo
 
 ## Phase Details
@@ -63,7 +63,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 18. Member ZT Client Version | 2/2 | ✓ Complete (verified) | 2026-05-11 |
-| 19. Internationalization Sweep | 2/2 | Plans complete (verification pending) | - |
+| 19. Internationalization Sweep | 2/2 | ✓ Complete (verified) | 2026-05-12 |
 | 20. Shell & Users-Page Regression Fixes | 0/0 | Not started | - |
 
 ## Dependencies
@@ -90,4 +90,4 @@ All three phases are independent in code terms. The chosen order (18 → 19 → 
 
 ---
 *Roadmap created: 2026-05-04*
-*Last updated: 2026-05-12 — Phase 19 plans complete (19-01 audit tooling + 19-02 audit report); D-04 row-by-row walkthrough overridden via /gsd-next --force, see 19-02-SUMMARY.md Deviations; ready for /gsd-verify-phase 19*
+*Last updated: 2026-05-12 — Phase 19 complete (verified passed; one documented override of D-04 walkthrough discipline accepted by verifier — see 19-VERIFICATION.md frontmatter overrides); ready for Phase 20*
