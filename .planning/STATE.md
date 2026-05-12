@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: executing
-stopped_at: Phase 19 plan 01 complete — i18n audit script (LOCKED D-03 regex with C.UTF-8 locale amendment) + opt-in npm wiring delivered; audit exits 0 on current tree; verbatim run output captured for Plan 19-02 consumption.
-last_updated: "2026-05-11T18:45:00.000Z"
-last_activity: 2026-05-11 -- Phase 19 plan 01 complete (audit script + npm wiring + clean run captured; D-03 regex locale amended C → C.UTF-8 per user decision)
+stopped_at: Phase 19 plans complete (19-01 audit tooling + 19-02 audit report). D-04 row-by-row walkthrough was overridden via /gsd-next --force; reviewer self-signed the Sign-off block, row checkboxes were flipped in bulk under user authority. Ready for /gsd-verify-phase 19 to write 19-VERIFICATION.md (D-05.3).
+last_updated: "2026-05-12T12:00:00.000Z"
+last_activity: 2026-05-12 -- Phase 19 plans 01 + 02 complete; audit closes I18N-01 / I18N-02 with one documented deviation (D-04 walkthrough override)
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 4
-  completed_plans: 3
-  percent: 67
+  completed_plans: 4
+  percent: 80
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 19 — Internationalization Sweep (executing)
-Plan: 1 of 2 in current phase
-Status: Executing — Plan 19-02 next
-Last activity: 2026-05-11 -- Phase 19 plan 01 complete (audit script + npm wiring + clean run captured; D-03 regex locale amended C → C.UTF-8 per user decision)
+Phase: 19 — Internationalization Sweep (plans complete; awaiting verification)
+Plan: 2 of 2 in current phase
+Status: Plans complete — ready for /gsd-verify-phase 19
+Last activity: 2026-05-12 -- Phase 19 plans 01 + 02 complete; audit closes I18N-01 / I18N-02 with one documented deviation (D-04 walkthrough override via /gsd-next --force)
 
-Progress: [███████░░░] 67% (1/3 phases complete; 3/4 plans complete)
+Progress: [████████░░] 80% (1/3 phases complete; 4/4 plans complete)
 
 ## Performance Metrics
 
@@ -80,6 +80,7 @@ Phase 19 decisions captured in `.planning/phases/19-internationalization-sweep/1
 - Phase 19 (D-05/D-06/D-07): Three artifacts — `src/scripts/i18n-audit.sh` (re-runnable, opt-in), `19-AUDIT.md` (scope + commands + walkthrough sign-off + findings), closure note in `19-VERIFICATION.md`. NOT wired to CI (per OOS). No new `*.test.ts`.
 - Phase 19 (D-08/D-09/D-10): Fix strategy if PT found = pure inline replacement (no dictionary helper, no `strings.ts`); replacement copy follows existing English conventions; `.TODO.md` not in audit scope.
 - Phase 19 scout (2026-05-11): zero PT strings found in `src/` under D-01 filter; phase is shaped as verify-and-close.
+- Phase 19 (D-04 override, 2026-05-12): Plan 19-02 Task 2 (checkpoint:human-verify) resolved via /gsd-next --force authorization. Row checkboxes flipped in bulk; reviewer self-signed Sign-off block (2026-05-12 07:30 / 07:45). Automated-pass evidence axis intact (audit script exits 0); human-checked axis satisfied by self-attestation rather than per-row visual confirmation. Verifier should evaluate whether to PASS-with-annotation or flag as gap.
 
 ### Roadmap Evolution
 

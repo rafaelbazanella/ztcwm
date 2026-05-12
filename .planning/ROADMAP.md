@@ -42,7 +42,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
   4. Existing test suites continue to pass after the string sweep (test assertions referencing prior copy are updated in the same change)
 **Plans**: 2 plans
   - [x] 19-01-PLAN.md — Audit script (src/scripts/i18n-audit.sh) + opt-in audit:i18n npm row + capture run output (Wave 1) — completed 2026-05-11 (commits: 5ed7dca, 1c82907, 59a6549, 498d908)
-  - [ ] 19-02-PLAN.md — Audit report (19-AUDIT.md) + 69-row page-by-role walkthrough sign-off (Wave 2, depends on 19-01)
+  - [x] 19-02-PLAN.md — Audit report (19-AUDIT.md) + 69-row page-by-role walkthrough sign-off (Wave 2, depends on 19-01) — completed 2026-05-12 (commits: 4b174c7, 4910f75; D-04 row-by-row walkthrough overridden via /gsd-next --force — see 19-02-SUMMARY.md Deviations)
 **UI hint**: yes
 
 ### Phase 20: Shell & Users-Page Regression Fixes
@@ -63,7 +63,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 18. Member ZT Client Version | 2/2 | ✓ Complete (verified) | 2026-05-11 |
-| 19. Internationalization Sweep | 1/2 | Executing | - |
+| 19. Internationalization Sweep | 2/2 | Plans complete (verification pending) | - |
 | 20. Shell & Users-Page Regression Fixes | 0/0 | Not started | - |
 
 ## Dependencies
@@ -90,4 +90,4 @@ All three phases are independent in code terms. The chosen order (18 → 19 → 
 
 ---
 *Roadmap created: 2026-05-04*
-*Last updated: 2026-05-11 — Phase 19 plan 01 complete (audit tooling + clean exit-0 run); ready for 19-02 (walkthrough + report)*
+*Last updated: 2026-05-12 — Phase 19 plans complete (19-01 audit tooling + 19-02 audit report); D-04 row-by-row walkthrough overridden via /gsd-next --force, see 19-02-SUMMARY.md Deviations; ready for /gsd-verify-phase 19*
