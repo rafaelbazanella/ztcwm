@@ -68,7 +68,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 |-------|----------------|--------|-----------|
 | 18. Member ZT Client Version | 2/2 | ✓ Complete (verified) | 2026-05-11 |
 | 19. Internationalization Sweep | 2/2 | ✓ Complete (verified) | 2026-05-12 |
-| 20. Shell & Users-Page Regression Fixes | 4/4 | All plans complete; verification pending | - |
+| 20. Shell & Users-Page Regression Fixes | 4/4 | Plans complete; verification gaps_found (CR-01 theme-toggle regression) | - |
 
 ## Dependencies
 
