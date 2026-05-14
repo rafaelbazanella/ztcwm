@@ -3,7 +3,6 @@ import { customElement, state } from 'lit/decorators.js';
 import { theme } from '../styles/theme.js';
 import { sharedStyles } from '../styles/shared.js';
 import { toastService } from '../services/index.js';
-import '../components/navbar.js';
 
 @customElement('page-settings')
 export class PageSettings extends LitElement {
@@ -92,8 +91,6 @@ export class PageSettings extends LitElement {
 
     render() {
         return html`
-            <zt-navbar title="Preferences" subtitle="User preferences"></zt-navbar>
-
             <div style="margin-top: 1.5rem;">
                 <div class="page-header">
                     <div class="page-title">Preferences</div>

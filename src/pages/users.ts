@@ -7,7 +7,6 @@ import { sharedStyles } from '../styles/shared.js';
 import { toastService } from '../services/index.js';
 import { userService } from '../services/index.js';
 import type { DataTableColumn } from '../components/data-table.js';
-import '../components/navbar.js';
 import '../components/data-table.js';
 import '../components/modal.js';
 import '../components/badge.js';
@@ -520,8 +519,6 @@ export class PageUsers extends LitElement {
 
     render() {
         return html`
-            <zt-navbar title="User Management" subtitle="Manage accounts and roles"></zt-navbar>
-
             <div style="margin-top: var(--space-lg, 1.5rem);">
                 <div class="page-header">
                     <div>

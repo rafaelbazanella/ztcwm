@@ -7,7 +7,6 @@ import { sharedStyles } from '../styles/shared.js';
 import { networkService, nodeService, logService } from '../services/index.js';
 import type { ControllerStatus, NodeStatus, NetworkListResponse } from '../types/index.js';
 import '../components/stat-card.js';
-import '../components/navbar.js';
 import '../components/badge.js';
 import '../components/loading.js';
 
@@ -238,7 +237,6 @@ export class PageDashboard extends LitElement {
     render() {
         if (this.loading) {
             return html`
-                <zt-navbar title="Dashboard" subtitle="Overview"></zt-navbar>
                 <div style="margin-top: var(--space-lg, 1.5rem);">
                     <zt-loading variant="skeleton-cards" count="4"></zt-loading>
                 </div>
@@ -246,8 +244,6 @@ export class PageDashboard extends LitElement {
         }
 
         return html`
-            <zt-navbar title="Dashboard" subtitle="Overview"></zt-navbar>
-
             <div style="margin-top: var(--space-lg, 1.5rem);">
                 <!-- Stats Row -->
                 <div class="stats-grid">

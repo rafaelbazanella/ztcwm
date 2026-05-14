@@ -6,7 +6,6 @@ import { theme } from '../styles/theme.js';
 import { sharedStyles } from '../styles/shared.js';
 import { networkService, memberService, logService, toastService } from '../services/index.js';
 import type { NetworkListItem, Member } from '../types/index.js';
-import '../components/navbar.js';
 import '../components/badge.js';
 import '../components/empty-state.js';
 import '../components/loading.js';
@@ -196,8 +195,6 @@ export class PagePending extends LitElement {
 
     render() {
         return html`
-            <zt-navbar title="Pending Authorization" subtitle="Unauthorized members across all networks"></zt-navbar>
-
             <div style="margin-top: var(--space-lg, 1.5rem);">
                 <div class="page-header">
                     <div>

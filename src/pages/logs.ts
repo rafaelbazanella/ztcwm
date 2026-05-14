@@ -5,7 +5,6 @@ import { theme } from '../styles/theme.js';
 import { sharedStyles } from '../styles/shared.js';
 import { logService } from '../services/index.js';
 import type { LogEntry } from '../types/index.js';
-import '../components/navbar.js';
 import '../components/badge.js';
 import '../components/empty-state.js';
 import { formatTimestamp } from '../utils/helpers.js';
@@ -86,8 +85,6 @@ export class PageLogs extends LitElement {
 
     render() {
         return html`
-            <zt-navbar title="Logs" subtitle="Application event log"></zt-navbar>
-
             <div style="margin-top: var(--space-lg, 1.5rem);">
                 <div class="page-header">
                     <div>

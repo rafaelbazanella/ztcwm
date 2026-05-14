@@ -9,7 +9,6 @@ import { networkService, memberService, logService, toastService, nodeService, u
 import { filterMembers, isIPv4 } from '../utils/helpers.js';
 import type { Network, Member, MemberWithPeer, NetworkUpdate, MemberUpdate } from '../types/index.js';
 import type { DataTableColumn } from '../components/data-table.js';
-import '../components/navbar.js';
 import '../components/badge.js';
 import '../components/modal.js';
 import '../components/loading.js';
@@ -662,7 +661,6 @@ export class PageNetworkDetail extends LitElement {
     render() {
         if (this.loading) {
             return html`
-                <zt-navbar title="Network Detail" subtitle=${this.networkId}></zt-navbar>
                 <div style="margin-top: var(--space-lg, 1.5rem);">
                     <zt-loading variant="skeleton-cards" count="3"></zt-loading>
                 </div>
@@ -677,8 +675,6 @@ export class PageNetworkDetail extends LitElement {
         const nwid = n.nwid || n.id || '';
 
         return html`
-            <zt-navbar title="Network Detail" subtitle=${this.networkId}></zt-navbar>
-
             <div style="margin-top: var(--space-lg, 1.5rem);">
                 <button class="back-link" @click=${this.navigateBack}>← Back to Networks</button>
 
