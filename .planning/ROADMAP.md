@@ -55,7 +55,11 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
   3. The navbar is vertically aligned with `<div class="brand">` at the top of the viewport — no visible gap, offset, or shift when navigating between routes
   4. The `.btn-*` system remains the standardization target (icons are added inside the existing button classes, not via bespoke styling)
   5. Existing navbar, app, and users-page tests continue to pass; new test coverage exists for the icon presence on each Users-page action button
-**Plans**: TBD
+**Plans**: 4 plans
+  - [ ] 20-01-PLAN.md — USERS-01: <zt-data-table> imports sharedStyles + D-03 nested-shadow computed-style regression test on Users page (Wave 1)
+  - [ ] 20-02-PLAN.md — LAYOUT-01 foundation: add title/subtitle metadata to all 10 authenticated routes in src/router/index.ts (Wave 1)
+  - [ ] 20-03-PLAN.md — LAYOUT-01 + LAYOUT-02: mount persistent <zt-navbar> in <zt-app>, match .brand row geometry + sticky positioning, app.test.ts visibility-gate tests (Wave 2, depends on 20-02)
+  - [ ] 20-04-PLAN.md — Cleanup: delete 13 per-page <zt-navbar> invocations + 10 dead imports, remove users.test.ts navbar assertion (D-15), delete dead --navbar-height token (Wave 3, depends on 20-01 and 20-03)
 **UI hint**: yes
 
 ## Progress
@@ -64,7 +68,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 |-------|----------------|--------|-----------|
 | 18. Member ZT Client Version | 2/2 | ✓ Complete (verified) | 2026-05-11 |
 | 19. Internationalization Sweep | 2/2 | ✓ Complete (verified) | 2026-05-12 |
-| 20. Shell & Users-Page Regression Fixes | 0/0 | Not started | - |
+| 20. Shell & Users-Page Regression Fixes | 0/4 | Planned (4 plans across 3 waves) | - |
 
 ## Dependencies
 
@@ -90,4 +94,4 @@ All three phases are independent in code terms. The chosen order (18 → 19 → 
 
 ---
 *Roadmap created: 2026-05-04*
-*Last updated: 2026-05-12 — Phase 19 complete (verified passed; one documented override of D-04 walkthrough discipline accepted by verifier — see 19-VERIFICATION.md frontmatter overrides); ready for Phase 20*
+*Last updated: 2026-05-14 — Phase 20 plans authored (4 plans across 3 waves; commits pending)*

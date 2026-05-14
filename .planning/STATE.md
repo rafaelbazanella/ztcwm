@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: executing
-stopped_at: Phase 20 UI-SPEC approved (6/6 dimensions, 1 non-blocking FLAG on Dim 5 spacing for inherited 0.4rem .btn-icon padding). Ready for /gsd-plan-phase 20.
-last_updated: "2026-05-14T13:00:00.000Z"
-last_activity: 2026-05-14 -- Phase 20 UI-SPEC approved (6/6 PASS with 1 FLAG); design contract locked
+stopped_at: Phase 20 planned (4 plans across 3 waves; checker PASSED on revision iteration 2/3). Ready for /gsd-execute-phase 20.
+last_updated: "2026-05-14T15:00:00.000Z"
+last_activity: 2026-05-14 -- Phase 20 planned (4 plans / 3 waves); requirements 3/3 covered; decision coverage 14/16 with D-02 and D-12 accepted as no-op preservation
 progress:
   total_phases: 3
   completed_phases: 2
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 20 — Shell & Users-Page Regression Fixes (context gathered; ready for planning)
-Plan: 0 of TBD in current phase
-Status: Ready to plan
-Last activity: 2026-05-14 -- Phase 20 context captured (16 decisions D-01..D-16); ready for /gsd-plan-phase 20
+Phase: 20 — Shell & Users-Page Regression Fixes (planned; ready to execute)
+Plan: 0 of 4 in current phase
+Status: Ready to execute
+Last activity: 2026-05-14 -- Phase 20 planned (4 plans / 3 waves; 20-01 + 20-02 parallel in Wave 1, 20-03 in Wave 2, 20-04 in Wave 3); checker PASSED on iteration 2/3 after BLOCKER-1 (Router.location → event.detail.location.route wiring) and BLOCKER-2 (per-button D-03 test coverage) fixes
 
 Progress: [██████░░░░] 67% (2/3 phases complete; 4/4 plans complete in milestone)
 
@@ -71,7 +71,13 @@ v3.1-specific decisions captured (locked):
 
 v3.1-specific decisions still pending until plan-phase:
 
-- Phase 20: Where exactly does `<zt-navbar>` move to in `src/app.ts` relative to `<div id="outlet">` and `<div class="brand">`?
+- (none — Phase 20 planning resolved all pending Phase 20 decisions)
+
+Phase 20 plan-phase resolutions (2026-05-14):
+
+- Plan 20-03 wires the persistent navbar via the existing `vaadin-router-location-changed` listener in `src/app.ts:104-106`: handler reads `(e as CustomEvent).detail?.location?.route` and pushes `title` / `subtitle` into `<zt-app>` `@state` props that bind to `<zt-navbar>`. Static-property access (`Router.location`) is explicitly forbidden by 20-03 Task 2 acceptance criteria (grep returns 0) — would have shipped silently broken (Router 2.x has `location` as an instance property, not static). The synthetic-event regression test in 20-03 Task 3 Test 4 (`new CustomEvent('vaadin-router-location-changed', { detail: { location: { route: { title: 'Dashboard', subtitle: 'Overview' }}}})`) is the runtime guard.
+- Plan 20-01 D-03 test iterates all 3 Users-page action buttons (Edit / Reset Password / Delete) asserting `getComputedStyle(svg).width === '16px'` AND `.height === '16px'` per button — `buttons[0]`-only was insufficient for SC #5 "icon presence on each Users-page action button".
+- D-02 and D-12 (no-op preservation decisions: "keep icon-only shape, no padding bump" and "no responsive collapse") accepted as covered-by-absence — no plan modifies users.ts button markup or adds responsive code, so both are satisfied implicitly. Recorded in coverage gate override 2026-05-14.
 
 Phase 19 decisions captured in `.planning/phases/19-internationalization-sweep/19-CONTEXT.md` (2026-05-11):
 
