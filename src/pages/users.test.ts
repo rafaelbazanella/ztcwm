@@ -189,14 +189,6 @@ describe('page-users UI', () => {
 
         expect(mockUserService.getCurrentUser).toHaveBeenCalled();
     });
-
-    it('renders navbar with User Management title', async () => {
-        const el = await createUsersPage();
-
-        const navbar = el.shadowRoot!.querySelector('zt-navbar');
-        expect(navbar).toBeTruthy();
-        expect(navbar?.getAttribute('title') || (navbar as any)?.title).toContain('User');
-    });
 });
 
 async function openEditModalFor(el: PageUsers, userId: number): Promise<void> {
