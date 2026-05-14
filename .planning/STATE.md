@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: executing
-stopped_at: Phase 20 context gathered. 16 decisions captured across USERS-01 (icon styling fix via data-table importing sharedStyles), LAYOUT-01 (route-metadata title/subtitle source), LAYOUT-02 (unified header band matching brand row height + sticky positioning), and per-page navbar cleanup. Ready for /gsd-plan-phase 20.
-last_updated: "2026-05-14T12:00:00.000Z"
-last_activity: 2026-05-14 -- Phase 20 context captured (16 decisions D-01..D-16); ready for planning
+stopped_at: Phase 20 UI-SPEC approved (6/6 dimensions, 1 non-blocking FLAG on Dim 5 spacing for inherited 0.4rem .btn-icon padding). Ready for /gsd-plan-phase 20.
+last_updated: "2026-05-14T13:00:00.000Z"
+last_activity: 2026-05-14 -- Phase 20 UI-SPEC approved (6/6 PASS with 1 FLAG); design contract locked
 progress:
   total_phases: 3
   completed_phases: 2
@@ -106,5 +106,5 @@ None. All seven v3.1 requirements are well-scoped polish items with no external 
 ## Session Continuity
 
 Last session: 2026-05-14
-Stopped at: Phase 20 context gathered. 16 decisions captured in `.planning/phases/20-shell-users-page-regression-fixes/20-CONTEXT.md`. Root cause of USERS-01 diagnosed during discuss (data-table shadow-DOM boundary, not missing imports). LAYOUT-01 plumbing decided (route metadata in `src/router/index.ts`). LAYOUT-02 locked to brand row height (~49px with 1px border). All 11 pages × 13 navbar invocations slated for deletion.
-Resume file: .planning/phases/20-shell-users-page-regression-fixes/20-CONTEXT.md (then proceed to `/gsd-plan-phase 20`)
+Stopped at: Phase 20 UI-SPEC approved (6/6 dimensions, 1 non-blocking FLAG on Dim 5 spacing). UI design contract locked at `.planning/phases/20-shell-users-page-regression-fixes/20-UI-SPEC.md` — reuses 3 existing `--space-*` tokens, 4 of 7 font sizes, accent reserved-for list pinned to 4 elements, destructive color only in confirmation modal (delete-trigger icon stays neutral). Unified header band geometry pinned to navbar `:host { padding: 1rem 1.25rem; border-bottom: 1px solid var(--color-border) }` to mirror `.brand` at `src/components/sidebar.ts:36-37`. FLAG: `0.4rem` `.btn-icon` padding inherited from `shared.ts:83` per SC #4 lock — recommend explicit "Exceptions" entry in UI-SPEC if planner wants to close the read cleanly.
+Resume file: .planning/phases/20-shell-users-page-regression-fixes/20-UI-SPEC.md (then proceed to `/gsd-plan-phase 20`)
