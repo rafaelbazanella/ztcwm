@@ -59,7 +59,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
   - [x] 20-01-PLAN.md — USERS-01: <zt-data-table> imports sharedStyles + D-03 nested-shadow computed-style regression test on Users page (Wave 1)
   - [x] 20-02-PLAN.md — LAYOUT-01 foundation: add title/subtitle metadata to all 10 authenticated routes in src/router/index.ts (Wave 1)
   - [x] 20-03-PLAN.md — LAYOUT-01 + LAYOUT-02: mount persistent <zt-navbar> in <zt-app>, match .brand row geometry + sticky positioning, app.test.ts visibility-gate tests (Wave 2, depends on 20-02)
-  - [ ] 20-04-PLAN.md — Cleanup: delete 13 per-page <zt-navbar> invocations + 10 dead imports, remove users.test.ts navbar assertion (D-15), delete dead --navbar-height token (Wave 3, depends on 20-01 and 20-03)
+  - [x] 20-04-PLAN.md — Cleanup: delete 13 per-page <zt-navbar> invocations + 10 dead imports, remove users.test.ts navbar assertion (D-15), delete dead --navbar-height token (Wave 3, depends on 20-01 and 20-03)
 **UI hint**: yes
 
 ## Progress
@@ -68,7 +68,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 |-------|----------------|--------|-----------|
 | 18. Member ZT Client Version | 2/2 | ✓ Complete (verified) | 2026-05-11 |
 | 19. Internationalization Sweep | 2/2 | ✓ Complete (verified) | 2026-05-12 |
-| 20. Shell & Users-Page Regression Fixes | 3/4 | Waves 1+2 complete; Wave 3 pending (cleanup) | - |
+| 20. Shell & Users-Page Regression Fixes | 4/4 | All plans complete; verification pending | - |
 
 ## Dependencies
 

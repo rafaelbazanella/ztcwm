@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: executing
-stopped_at: Phase 20 Waves 1+2 complete (20-01 sharedStyles fix, 20-02 router metadata, 20-03 persistent navbar mount). Wave 3 pending (20-04 cleanup of per-page navbars).
-last_updated: "2026-05-14T13:50:00.000Z"
-last_activity: 2026-05-14 -- Phase 20 Wave 2 merged (20-03 persistent navbar via vaadin-router-location-changed listener; BLOCKER-1 invariant honored — 0 occurrences of Router.location in app.ts; navbar :host matches .brand row geometry byte-for-byte); post-merge tests 686/694 pass; Wave 3 ready (20-04 depends on 20-01 + 20-03)
+stopped_at: Phase 20 all 4 plans executed and merged. Verification pending.
+last_updated: "2026-05-14T17:10:00.000Z"
+last_activity: 2026-05-14 -- Phase 20 Wave 3 merged (20-04 cleanup: deleted 13 per-page <zt-navbar> invocations + 10 dead imports from 10 page files, removed users.test.ts navbar test block (D-15), dropped dead --navbar-height token from theme.ts; kept navbar.ts + navbar.test.ts components per D-14; merge conflict in users.test.ts resolved by keeping 20-01's D-03 regression test + dropping the pre-Phase-20 navbar test). Post-merge tests 685/693 pass (-1 from Wave 2 = the deleted navbar test). All 4 plans complete; ready for verification.
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 4
-  completed_plans: 7
+  completed_plans: 8
   percent: 67
 ---
 
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 20 — Shell & Users-Page Regression Fixes (executing — Waves 1+2 of 3 complete)
-Plan: 3 of 4 in current phase
-Status: Executing — Wave 3 next (20-04 cleanup: delete per-page navbars + dead --navbar-height token)
-Last activity: 2026-05-14 -- Wave 2 merged: 20-03 mounted persistent `<zt-navbar>` once inside `<zt-app>` non-login render branch with property bindings to `routeTitle`/`routeSubtitle` `@state` fields; extended `vaadin-router-location-changed` listener to read `event.detail.location.route` (BLOCKER-1 invariant — 0 occurrences of `Router.location` in app.ts); navbar :host CSS now `padding: 1rem 1.25rem; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 50` (D-09/D-10/D-11); added 4 new tests in app.test.ts for visibility gate + event-driven title binding. Worktree base-correction quirk surfaced (executor worktree spawned at pre-Phase-20 commit 4b174c7; merge was conflict-free because 20-03's files are disjoint from Wave 1's). Post-merge gate: 686 passed / 8 skipped / 33 files.
+Phase: 20 — Shell & Users-Page Regression Fixes (all plans executed — verification pending)
+Plan: 4 of 4 in current phase
+Status: Ready for verification
+Last activity: 2026-05-14 -- Wave 3 merged: 20-04 cleanup removed 13 per-page `<zt-navbar>` invocations, 10 dead imports, the stale navbar test block in users.test.ts (D-15), and the dead `--navbar-height` token from theme.ts; navbar.ts component and its tests preserved (D-14). Merge conflict in users.test.ts (3-way semantic gap: HEAD had both pre-Phase-20 navbar test AND 20-01's D-03 regression test; branch had neither) resolved by keeping the D-03 test and dropping the navbar test — matches D-15 intent. Post-merge tests: 685 passed / 8 skipped / 33 files. Final grep invariants: 0 `<zt-navbar` in pages, 0 `components/navbar` imports in pages, 0 `--navbar-height` anywhere in src/, navbar.ts/navbar.test.ts retained.
 
-Progress: [██████░░░░] 67% (2/3 phases complete; 7/7 plans done across milestone; Phase 20 at 3/4 plans)
+Progress: [██████░░░░] 67% (2/3 phases complete; 8/8 plans done across milestone; Phase 20 at 4/4 plans pending verification)
 
 ## Performance Metrics
 
