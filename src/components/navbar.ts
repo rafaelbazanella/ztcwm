@@ -21,11 +21,12 @@ export class ZtNavbar extends LitElement {
         sharedStyles,
         css`
             :host {
-                display: block;
-                height: var(--navbar-height);
+                position: sticky;
+                top: 0;
+                z-index: 50;
                 background: var(--color-bg-secondary);
                 border-bottom: 1px solid var(--color-border);
-                padding: 0 1.5rem;
+                padding: 1rem 1.25rem;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
