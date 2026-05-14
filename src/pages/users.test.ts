@@ -197,6 +197,31 @@ describe('page-users UI', () => {
         expect(navbar).toBeTruthy();
         expect(navbar?.getAttribute('title') || (navbar as any)?.title).toContain('User');
     });
+
+    it('Users-page action buttons render Lucide icons at 16x16 inside data-table shadow root (USERS-01 / D-03)', async () => {
+        const el = await createUsersPage();
+
+        // Drill page -> data-table (single shadow root)
+        const dataTable = el.shadowRoot!.querySelector('zt-data-table') as HTMLElement;
+        expect(dataTable).toBeTruthy();
+
+        // Wait for data-table to render its rows from the provided MOCK_USERS
+        await new Promise(r => setTimeout(r, 50));
+
+        // Drill data-table shadow root -> action buttons (Edit, Reset Password, Delete — in that order)
+        const buttons = dataTable.shadowRoot!.querySelectorAll('button.btn-icon');
+        expect(buttons.length).toBeGreaterThanOrEqual(3);
+
+        // D-03: verify EACH of the three action buttons has its nested <svg> at 16x16
+        const expectedLabels = ['Edit', 'Reset Password', 'Delete'];
+        for (let i = 0; i < 3; i++) {
+            const svg = buttons[i].querySelector('svg');
+            expect(svg, `${expectedLabels[i]} button (index ${i}) should contain an <svg>`).toBeTruthy();
+            const cs = getComputedStyle(svg!);
+            expect(cs.width, `${expectedLabels[i]} button (index ${i}) svg width`).toBe('16px');
+            expect(cs.height, `${expectedLabels[i]} button (index ${i}) svg height`).toBe('16px');
+        }
+    });
 });
 
 async function openEditModalFor(el: PageUsers, userId: number): Promise<void> {
