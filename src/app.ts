@@ -3,12 +3,15 @@ import { customElement, state } from 'lit/decorators.js';
 import { theme, lightTheme, resetStyles } from './styles/theme.js';
 import { initRouter, checkSetupStatus, checkAuth } from './router/index.js';
 import './components/sidebar.js';
+import './components/navbar.js';
 import './components/toast.js';
 
 @customElement('zt-app')
 export class ZtApp extends LitElement {
     @state() private currentPath = window.location.pathname;
     @state() private theme: 'dark' | 'light' = 'dark';
+    @state() private routeTitle = '';
+    @state() private routeSubtitle = '';
 
     static styles = [
         theme,
@@ -101,8 +104,12 @@ export class ZtApp extends LitElement {
         window.addEventListener('popstate', () => {
             this.currentPath = window.location.pathname;
         });
-        window.addEventListener('vaadin-router-location-changed', () => {
+        window.addEventListener('vaadin-router-location-changed', (e: Event) => {
             this.currentPath = window.location.pathname;
+            const detail = (e as CustomEvent).detail;
+            const route = detail?.location?.route as { title?: string; subtitle?: string } | undefined;
+            this.routeTitle = route?.title ?? '';
+            this.routeSubtitle = route?.subtitle ?? '';
         });
     }
 
@@ -127,6 +134,7 @@ export class ZtApp extends LitElement {
             <div class="app-layout">
                 <zt-sidebar .currentPath=${this.currentPath}></zt-sidebar>
                 <main class="main-content">
+                    <zt-navbar .title=${this.routeTitle} .subtitle=${this.routeSubtitle} show-logout></zt-navbar>
                     <div id="outlet" class="router-outlet"></div>
                 </main>
                 <zt-toast-container></zt-toast-container>
