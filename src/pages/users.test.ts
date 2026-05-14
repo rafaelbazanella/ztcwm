@@ -190,14 +190,6 @@ describe('page-users UI', () => {
         expect(mockUserService.getCurrentUser).toHaveBeenCalled();
     });
 
-    it('renders navbar with User Management title', async () => {
-        const el = await createUsersPage();
-
-        const navbar = el.shadowRoot!.querySelector('zt-navbar');
-        expect(navbar).toBeTruthy();
-        expect(navbar?.getAttribute('title') || (navbar as any)?.title).toContain('User');
-    });
-
     it('Users-page action buttons render Lucide icons at 16x16 inside data-table shadow root (USERS-01 / D-03)', async () => {
         const el = await createUsersPage();
 

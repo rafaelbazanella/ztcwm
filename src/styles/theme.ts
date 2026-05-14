@@ -64,7 +64,6 @@ export const theme = css`
 
         --sidebar-width: 240px;
         --sidebar-width-collapsed: 64px;
-        --navbar-height: 56px;
 
         --transition-fast: 150ms ease;
         --transition-base: 200ms ease;

@@ -6,7 +6,6 @@ import { sharedStyles } from '../styles/shared.js';
 import { networkService, memberService, logService, toastService } from '../services/index.js';
 import type { Member, MemberUpdate } from '../types/index.js';
 import type { DataTableColumn } from '../components/data-table.js';
-import '../components/navbar.js';
 import '../components/badge.js';
 import '../components/loading.js';
 import '../components/empty-state.js';
@@ -100,8 +99,6 @@ export class PageMembers extends LitElement {
 
     render() {
         return html`
-            <zt-navbar title="Members" subtitle="All network members"></zt-navbar>
-
             <div style="margin-top: var(--space-lg, 1.5rem);">
                 <div class="page-header">
                     <div>

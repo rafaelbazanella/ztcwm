@@ -6,7 +6,6 @@ import { sharedStyles } from '../styles/shared.js';
 import { networkService, logService, toastService, userService } from '../services/index.js';
 import type { NetworkListItem, NetworkCreate } from '../types/index.js';
 import type { DataTableColumn } from '../components/data-table.js';
-import '../components/navbar.js';
 import '../components/badge.js';
 import '../components/modal.js';
 import '../components/empty-state.js';
@@ -134,8 +133,6 @@ export class PageNetworks extends LitElement {
 
     render() {
         return html`
-            <zt-navbar title="Networks" subtitle="Manage your ZeroTier networks"></zt-navbar>
-
             <div style="margin-top: var(--space-lg, 1.5rem);">
                 <div class="page-header">
                     <div>

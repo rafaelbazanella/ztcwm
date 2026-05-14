@@ -5,7 +5,6 @@ import { theme } from '../styles/theme.js';
 import { sharedStyles } from '../styles/shared.js';
 import { networkService, nodeService, logService, toastService } from '../services/index.js';
 import type { ControllerStatus, NodeStatus, Peer } from '../types/index.js';
-import '../components/navbar.js';
 import '../components/badge.js';
 import '../components/stat-card.js';
 import '../components/loading.js';
@@ -72,7 +71,6 @@ export class PageControllers extends LitElement {
     render() {
         if (this.loading) {
             return html`
-                <zt-navbar title="Controllers" subtitle="Controller and peer status"></zt-navbar>
                 <div style="margin-top: var(--space-lg, 1.5rem);">
                     <zt-loading variant="skeleton-cards" count="3"></zt-loading>
                 </div>
@@ -80,8 +78,6 @@ export class PageControllers extends LitElement {
         }
 
         return html`
-            <zt-navbar title="Controllers" subtitle="Controller and peer status"></zt-navbar>
-
             <div style="margin-top: var(--space-lg, 1.5rem);">
                 <div class="page-header">
                     <div class="page-title">Controller Status</div>

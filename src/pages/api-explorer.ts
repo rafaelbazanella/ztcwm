@@ -3,7 +3,6 @@ import { customElement, state } from 'lit/decorators.js';
 import { theme } from '../styles/theme.js';
 import { sharedStyles } from '../styles/shared.js';
 import { logService, toastService } from '../services/index.js';
-import '../components/navbar.js';
 import '../components/badge.js';
 import '../components/modal.js';
 
@@ -227,8 +226,6 @@ export class PageApiExplorer extends LitElement {
 
     render() {
         return html`
-            <zt-navbar title="API Explorer" subtitle="Test ZeroTier API endpoints"></zt-navbar>
-
             <div style="margin-top: var(--space-lg, 1.5rem);">
                 <div class="grid grid-2">
                     <div>
