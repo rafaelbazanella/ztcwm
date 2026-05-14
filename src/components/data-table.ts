@@ -3,6 +3,7 @@ import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js';
 import { ChevronUp, ChevronDown, Copy, Check, Pencil } from 'lucide-static';
 import { theme } from '../styles/theme.js';
+import { sharedStyles } from '../styles/shared.js';
 
 export interface DataTableColumn {
     key: string;
@@ -31,6 +32,7 @@ export class ZtDataTable extends LitElement {
 
     static styles = [
         theme,
+        sharedStyles,
         css`
             :host { display: block; }
 
