@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: executing
-stopped_at: Phase 20 Wave 1 complete (20-01 sharedStyles fix + D-03 regression test, 20-02 router title/subtitle metadata). Wave 2 pending (20-03 persistent navbar mount).
-last_updated: "2026-05-14T13:46:00.000Z"
-last_activity: 2026-05-14 -- Phase 20 Wave 1 merged (20-01, 20-02); post-merge tests 682/690 pass; Wave 2 ready (20-03 depends on 20-02 route metadata)
+stopped_at: Phase 20 Waves 1+2 complete (20-01 sharedStyles fix, 20-02 router metadata, 20-03 persistent navbar mount). Wave 3 pending (20-04 cleanup of per-page navbars).
+last_updated: "2026-05-14T13:50:00.000Z"
+last_activity: 2026-05-14 -- Phase 20 Wave 2 merged (20-03 persistent navbar via vaadin-router-location-changed listener; BLOCKER-1 invariant honored — 0 occurrences of Router.location in app.ts; navbar :host matches .brand row geometry byte-for-byte); post-merge tests 686/694 pass; Wave 3 ready (20-04 depends on 20-01 + 20-03)
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 4
-  completed_plans: 6
+  completed_plans: 7
   percent: 67
 ---
 
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 20 — Shell & Users-Page Regression Fixes (executing — Wave 1 of 3 complete)
-Plan: 2 of 4 in current phase
-Status: Executing — Wave 2 next (20-03 persistent navbar mount)
-Last activity: 2026-05-14 -- Wave 1 merged in parallel: 20-01 added `sharedStyles` to `<zt-data-table>` static styles array (fix `.btn-icon svg` 16x16 rule propagation into shadow root) + D-03 per-button computed-style regression test in users.test.ts; 20-02 added `title`/`subtitle` metadata to 10 authenticated routes in src/router/index.ts (D-05, D-07 static network-detail copy; type-safety via Vaadin Router generic R-extension after `declare module` rejected by Route being a type alias in v2.0.1). Post-merge gate: 682 passed / 8 skipped / 33 files. No regressions.
+Phase: 20 — Shell & Users-Page Regression Fixes (executing — Waves 1+2 of 3 complete)
+Plan: 3 of 4 in current phase
+Status: Executing — Wave 3 next (20-04 cleanup: delete per-page navbars + dead --navbar-height token)
+Last activity: 2026-05-14 -- Wave 2 merged: 20-03 mounted persistent `<zt-navbar>` once inside `<zt-app>` non-login render branch with property bindings to `routeTitle`/`routeSubtitle` `@state` fields; extended `vaadin-router-location-changed` listener to read `event.detail.location.route` (BLOCKER-1 invariant — 0 occurrences of `Router.location` in app.ts); navbar :host CSS now `padding: 1rem 1.25rem; border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 50` (D-09/D-10/D-11); added 4 new tests in app.test.ts for visibility gate + event-driven title binding. Worktree base-correction quirk surfaced (executor worktree spawned at pre-Phase-20 commit 4b174c7; merge was conflict-free because 20-03's files are disjoint from Wave 1's). Post-merge gate: 686 passed / 8 skipped / 33 files.
 
-Progress: [██████░░░░] 67% (2/3 phases complete; 6/6 plans done across milestone; Phase 20 at 2/4 plans)
+Progress: [██████░░░░] 67% (2/3 phases complete; 7/7 plans done across milestone; Phase 20 at 3/4 plans)
 
 ## Performance Metrics
 
