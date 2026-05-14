@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: executing
-stopped_at: Phase 20 planned (4 plans across 3 waves; checker PASSED on revision iteration 2/3). Ready for /gsd-execute-phase 20.
-last_updated: "2026-05-14T15:00:00.000Z"
-last_activity: 2026-05-14 -- Phase 20 planned (4 plans / 3 waves); requirements 3/3 covered; decision coverage 14/16 with D-02 and D-12 accepted as no-op preservation
+stopped_at: Phase 20 Wave 1 complete (20-01 sharedStyles fix + D-03 regression test, 20-02 router title/subtitle metadata). Wave 2 pending (20-03 persistent navbar mount).
+last_updated: "2026-05-14T13:46:00.000Z"
+last_activity: 2026-05-14 -- Phase 20 Wave 1 merged (20-01, 20-02); post-merge tests 682/690 pass; Wave 2 ready (20-03 depends on 20-02 route metadata)
 progress:
   total_phases: 3
   completed_phases: 2
   total_plans: 4
-  completed_plans: 4
+  completed_plans: 6
   percent: 67
 ---
 
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 20 — Shell & Users-Page Regression Fixes (planned; ready to execute)
-Plan: 0 of 4 in current phase
-Status: Ready to execute
-Last activity: 2026-05-14 -- Phase 20 planned (4 plans / 3 waves; 20-01 + 20-02 parallel in Wave 1, 20-03 in Wave 2, 20-04 in Wave 3); checker PASSED on iteration 2/3 after BLOCKER-1 (Router.location → event.detail.location.route wiring) and BLOCKER-2 (per-button D-03 test coverage) fixes
+Phase: 20 — Shell & Users-Page Regression Fixes (executing — Wave 1 of 3 complete)
+Plan: 2 of 4 in current phase
+Status: Executing — Wave 2 next (20-03 persistent navbar mount)
+Last activity: 2026-05-14 -- Wave 1 merged in parallel: 20-01 added `sharedStyles` to `<zt-data-table>` static styles array (fix `.btn-icon svg` 16x16 rule propagation into shadow root) + D-03 per-button computed-style regression test in users.test.ts; 20-02 added `title`/`subtitle` metadata to 10 authenticated routes in src/router/index.ts (D-05, D-07 static network-detail copy; type-safety via Vaadin Router generic R-extension after `declare module` rejected by Route being a type alias in v2.0.1). Post-merge gate: 682 passed / 8 skipped / 33 files. No regressions.
 
-Progress: [██████░░░░] 67% (2/3 phases complete; 4/4 plans complete in milestone)
+Progress: [██████░░░░] 67% (2/3 phases complete; 6/6 plans done across milestone; Phase 20 at 2/4 plans)
 
 ## Performance Metrics
 
