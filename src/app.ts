@@ -113,10 +113,16 @@ export class ZtApp extends LitElement {
         });
     }
 
-    public toggleTheme(): void {
-        this.theme = this.theme === 'dark' ? 'light' : 'dark';
+    public setTheme(target: 'dark' | 'light', options: { persist?: boolean } = { persist: true }): void {
+        this.theme = target;
         this.setAttribute('theme', this.theme);
-        localStorage.setItem('zt-theme', this.theme);
+        if (options.persist !== false) {
+            localStorage.setItem('zt-theme', this.theme);
+        }
+    }
+
+    public toggleTheme(): void {
+        this.setTheme(this.theme === 'dark' ? 'light' : 'dark');
     }
 
     public get currentTheme(): string {
@@ -134,7 +140,7 @@ export class ZtApp extends LitElement {
             <div class="app-layout">
                 <zt-sidebar .currentPath=${this.currentPath}></zt-sidebar>
                 <main class="main-content">
-                    <zt-navbar .title=${this.routeTitle} .subtitle=${this.routeSubtitle} show-logout></zt-navbar>
+                    <zt-navbar .title=${this.routeTitle} .subtitle=${this.routeSubtitle} .currentTheme=${this.theme} show-logout></zt-navbar>
                     <div id="outlet" class="router-outlet"></div>
                 </main>
                 <zt-toast-container></zt-toast-container>
