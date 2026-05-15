@@ -1,95 +1,55 @@
 ---
 phase: 20-shell-users-page-regression-fixes
-reviewed: 2026-05-14T00:00:00Z
+reviewed: 2026-05-15T00:00:00Z
 depth: standard
-files_reviewed: 17
+files_reviewed: 4
 files_reviewed_list:
-  - src/app.test.ts
-  - src/app.ts
-  - src/components/data-table.ts
   - src/components/navbar.ts
-  - src/pages/api-explorer.ts
-  - src/pages/controllers.ts
-  - src/pages/dashboard.ts
-  - src/pages/logs.ts
-  - src/pages/members.ts
-  - src/pages/network-detail.ts
-  - src/pages/networks.ts
-  - src/pages/pending.ts
+  - src/app.ts
   - src/pages/settings.ts
-  - src/pages/users.test.ts
-  - src/pages/users.ts
-  - src/router/index.ts
-  - src/styles/theme.ts
+  - src/app.test.ts
 findings:
-  critical: 1
+  critical: 0
   warning: 3
-  info: 4
+  info: 5
   total: 8
 status: issues_found
+previous_review: 20-REVIEW.md (pre-20-05; 1 BLOCKER + 3 WARNING + 4 INFO)
+closed_findings:
+  - CR-01 (pre-fix): Settings -> persistent navbar theme propagation broken (closed by 20-05 / Option B + IN-04)
+  - IN-04 (pre-fix): navbar.currentTheme staleness — collapsed into the parent-bound @property design
 ---
 
-# Phase 20: Code Review Report
+# Phase 20: Code Review Report (Post-20-05 Re-Review)
 
-**Reviewed:** 2026-05-14
+**Reviewed:** 2026-05-15
 **Depth:** standard
-**Files Reviewed:** 17
-**Status:** issues_found
+**Files Reviewed:** 4 (re-review scope per 20-05 gap closure)
+**Status:** issues_found (no BLOCKERS — Phase 20 is shippable; remaining items are deferred WARNINGs from the original review plus three new INFO items surfaced by the Option B refactor)
 
 ## Summary
 
-Phase 20 successfully delivered the four declared outcomes — `sharedStyles` is now imported into `<zt-data-table>` (fixing the Users-page action-icon regression), `title`/`subtitle` metadata is attached to every authenticated route, a persistent `<zt-navbar>` lives in the `<zt-app>` shell driven by `vaadin-router-location-changed`, and the 13 per-page navbar invocations + the `--navbar-height` token are gone. The implementation is internally consistent and the new regression tests are well-targeted (D-03 nested-shadow computed-style check, D-05 event-shape regression guard).
+Plan 20-05 lands the Option B / IN-04 design exactly as specified. `<zt-navbar>.currentTheme` is now a parent-bound Lit `@property` (no independent `@state`, no localStorage read in the component), `<zt-app>` exposes a public `setTheme(target, options?)` with opt-out persistence, `<page-settings>.setTheme()` routes through `app.setTheme()` for both the dark/light and System branches, and two new regression tests guard the propagation contract end-to-end. The four-commit chain (`36c8f3f` → `1adb8b4` → `46417ae` → `93101ea`) lands without leftover stale paths: no `app.setAttribute('theme', ...)` or `localStorage.setItem('zt-theme', ...)` remain in `settings.ts`, no `@state() private currentTheme` or `localStorage.getItem('zt-theme')` remain in `navbar.ts`, and `<zt-navbar>` in `app.ts` carries the `.currentTheme=${this.theme}` property binding.
 
-Adversarial review surfaces one **BLOCKER** introduced by the persistent-navbar refactor: switching theme from the Settings page now leaves the navbar's theme icon stale because `<page-settings>.setTheme()` bypasses `<zt-app>.toggleTheme()` and the navbar has no way to learn about the change. Previously the navbar was per-page and was re-mounted on navigation, which masked this bug; making the navbar persistent (LAYOUT-01) is what surfaces it. Three additional **WARNINGS** cover an initial-render flash, a missed event-listener cleanup contract, and a route-metadata gap on the 404 redirect path. Four **INFO** items track minor robustness / test-fragility concerns.
+**CR-01 is CLOSED.** The propagation contract holds by construction: `<zt-app>.theme` is the single writer-controlled source of truth; `<page-settings>` calls `app.setTheme()`; the navbar's `@property` reflects `<zt-app>.theme` via Lit binding. The `toggleTheme()` -> `setTheme()` delegation preserves the navbar-button contract. The `options.persist: false` opt-out preserves the System UX contract (verified by the new "System theme UX guard" test, which asserts `localStorage.getItem('zt-theme') === null` after a System click).
+
+**WR-01, WR-02, WR-03 remain UNCHANGED** (deferred per 20-05's `<deferred>` block) — none of plan 20-05's changes addressed them and none of plan 20-05's changes regressed them. They are re-listed below at the same WARNING severity with updated line refs reflecting the post-fix file.
+
+**Three new INFO items** surfaced by adversarial review of the post-fix code: a symmetric Settings-page UI staleness when the navbar theme button is clicked while Settings is the active route (IN-05); the `app.test.ts` regression guard not exercising the navbar's `@property` decorator chain because the navbar module is mocked to `{}` (IN-06); and the `matchMedia` spy in the two new tests not being restored, leaking across tests in the same describe block (IN-07).
+
+No BLOCKERS. The phase is ready for verification re-run.
 
 ## Critical Issues
 
-### CR-01: Theme toggle from Settings page leaves persistent navbar icon stale (regression introduced by LAYOUT-01)
-
-**Files:**
-- `src/pages/settings.ts:77-90`
-- `src/components/navbar.ts:107-113, 138-144`
-- `src/app.ts:116-124`
-
-**Issue:** Before phase 20, every page rendered its own `<zt-navbar>` and the navbar's `connectedCallback` re-read `localStorage.getItem('zt-theme')` on every mount. After phase 20, `<zt-navbar>` is mounted once inside `<zt-app>`'s shell (`src/app.ts:137`) and only re-reads localStorage on initial mount. The Settings page's `setTheme()` writes to `localStorage`, mutates its own local `currentTheme`, and calls `app.setAttribute('theme', this.currentTheme)` — but it does **not** call `app.toggleTheme()`. As a result:
-
-1. `<zt-app>.theme` (the `@state`-tracked source of truth) stays out of sync with the actual visible theme.
-2. The persistent navbar's `currentTheme` state never updates, so the sun/moon icon and the `aria-label`/`title` keep showing the *previous* theme until the user clicks the navbar's own theme button (which goes through `app.toggleTheme()` and re-syncs).
-
-Pre-phase-20 this was masked because navigating away from Settings dismounted the navbar; a fresh navbar mount re-read localStorage on connect. The persistent navbar removes that side-effect-as-a-fix, exposing a real two-way-binding gap.
-
-**Fix:** Settings must drive the theme change through `<zt-app>` so the app state and the navbar both update. Two equivalent options:
-
-```ts
-// Option A (preferred): go through the public API on <zt-app>
-private setTheme(theme: 'dark' | 'light' | 'system'): void {
-    const app = document.querySelector('zt-app') as ZtApp | null;
-    const resolved: 'dark' | 'light' = theme === 'system'
-        ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark')
-        : theme;
-    if (theme === 'system') localStorage.removeItem('zt-theme');
-    // Only toggle if it would actually change — toggleTheme() flips, so call it conditionally.
-    if (app && app.currentTheme !== resolved) {
-        app.toggleTheme();
-    }
-    this.currentTheme = resolved;
-}
-```
-
-```ts
-// Option B: dispatch a custom event that <zt-app> listens for, or expose a setTheme(theme) public method on <zt-app> and call it.
-// Then drop the direct localStorage.setItem / setAttribute calls in settings.ts — let <zt-app> own theme persistence end-to-end.
-```
-
-Either way, the persistent navbar must observe `<zt-app>.theme` changes (e.g. add an attribute observer or accept `currentTheme` as a `.property` binding from the parent in `src/app.ts`'s template).
+None. CR-01 (the only pre-review BLOCKER) is closed.
 
 ## Warnings
 
-### WR-01: `vaadin-router-location-changed` listener installed after `initRouter()` returns — initial-route title race
+### WR-01: `vaadin-router-location-changed` listener installed after `initRouter()` returns — initial-route title race (unchanged; deferred per 20-05)
 
 **File:** `src/app.ts:99-113`
 
-**Issue:** The listener registration order is:
+**Issue:** Unchanged from the prior review. Listener registration order is still:
 
 ```ts
 if (outlet) {
@@ -100,159 +60,152 @@ window.addEventListener('popstate', ...);
 window.addEventListener('vaadin-router-location-changed', ...);  // (2)
 ```
 
-`initRouter(outlet)` invokes `new Router(outlet)` and `router.setRoutes(...)`, both of which schedule asynchronous route resolution. The window listener is registered synchronously immediately after, so in practice it wins the race because the resolution Promise resolves on a microtask after the current task. However:
+The persistent navbar at line 143 still renders with `title=""` / `subtitle=""` initially, so a missed first event leaves the navbar title blank for the rest of the session. Plan 20-05 did not touch this. The two new tests in `app.test.ts` exercise `setTheme()` propagation, not router-initial-resolution timing, so this race remains uncovered by regression tests.
 
-- This ordering is fragile — any future change that makes resolution synchronous (or partly synchronous) would silently drop the first `vaadin-router-location-changed` event and leave `routeTitle`/`routeSubtitle` empty until the user navigates.
-- The new `app.test.ts` "navbar title/subtitle reflect event.detail.location.route" test (lines 221-259) **manually dispatches** a synthetic event well after `firstUpdated` — it does not exercise the real router's initial-resolution event, so this race is not regression-covered.
+**Fix:** Install both window listeners **before** calling `initRouter(outlet)`. Concrete patch in the original review still applies verbatim — only the line numbers in `src/app.ts` need re-checking against the current file (the body of `firstUpdated` was not touched by 20-05).
 
-The initial render at `src/app.ts:137` always renders the persistent navbar with `title=""` / `subtitle=""`; if the listener misses the first event, those bindings stay empty for the rest of the session.
-
-**Fix:** Install the listener **before** calling `initRouter()` so no event can be missed regardless of resolution timing:
-
-```ts
-window.addEventListener('popstate', () => {
-    this.currentPath = window.location.pathname;
-});
-window.addEventListener('vaadin-router-location-changed', (e: Event) => {
-    this.currentPath = window.location.pathname;
-    const detail = (e as CustomEvent).detail;
-    const route = detail?.location?.route as { title?: string; subtitle?: string } | undefined;
-    this.routeTitle = route?.title ?? '';
-    this.routeSubtitle = route?.subtitle ?? '';
-});
-this.currentPath = window.location.pathname;
-
-if (outlet) {
-    initRouter(outlet);
-}
-```
-
-Optionally, also add a real test that uses the actual router (not a synthetic event) to validate first-load title binding.
-
-### WR-02: Persistent navbar shows empty title/subtitle on first paint
+### WR-02: Persistent navbar shows empty title/subtitle on first paint (unchanged; deferred per 20-05)
 
 **Files:**
-- `src/app.ts:13-14, 137`
-- `src/components/navbar.ts:161-168`
+- `src/app.ts:13-14, 143`
+- `src/components/navbar.ts:162-165`
 
-**Issue:** `@state() routeTitle = ''` / `routeSubtitle = ''` are the initial values. The persistent navbar mounts and paints **before** the router fires `vaadin-router-location-changed`. The navbar template unconditionally renders `<div class="nav-title">${this.title}</div>` (an empty div) on first paint, producing a brief title-less flash on every full-page load of an authenticated route. The subtitle is at least guarded by `${this.subtitle ? html`...` : ''}`.
+**Issue:** Unchanged. `@state() routeTitle = ''` / `routeSubtitle = ''` initial values mean the navbar paints with empty strings on every full-page load of an authenticated route before the first `vaadin-router-location-changed` resolves. `<div class="nav-title">${this.title}</div>` (navbar.ts:163) is rendered unconditionally as an empty div. Independent of WR-01.
 
-This is independent of WR-01: even if the listener catches the first event, there is still one render pass with empty values between `firstUpdated`'s render and the post-resolution update.
+**Fix:** Same as in the prior review — either seed `routeTitle`/`routeSubtitle` from a synchronous path-to-metadata helper at `firstUpdated` time, or gate the navbar render on `this.routeTitle !== ''` (accepting a small layout shift).
 
-**Fix:** Either delay rendering the navbar until at least one route metadata is known, or seed `routeTitle` from a synchronous lookup. A small synchronous helper that maps `currentPath` → metadata at `firstUpdated` time avoids the flash:
+### WR-03: Catch-all route lacks title/subtitle metadata while still being matchable (unchanged; out of scope for this re-review)
 
-```ts
-// In src/app.ts, after currentPath is set:
-const seed = ROUTE_TITLES[this.currentPath]; // small static map mirroring router metadata
-if (seed) { this.routeTitle = seed.title; this.routeSubtitle = seed.subtitle ?? ''; }
-```
+**File:** `src/router/index.ts:187-191` (NOT in this re-review's scope)
 
-Or render `<zt-navbar>` only when `this.routeTitle` is non-empty, accepting that the navbar appears one tick later (less ideal — the layout would shift).
+**Issue:** Unchanged. `router/index.ts` is outside the four files in scope for this re-review; flagging here only for tracking continuity. Plan 20-05 did not touch the router. The original review's fix recommendation still applies: either give the `(.*)` wildcard the dashboard's metadata, or guard the assignment in `app.ts:111-112` against `route?.title === undefined`.
 
-### WR-03: Catch-all route lacks title/subtitle metadata while still being matchable
-
-**File:** `src/router/index.ts:187-191`
-
-**Issue:** The `(.*)` wildcard child route has no `title`/`subtitle` and resolves to `redirect: '/dashboard'`. Vaadin Router does fire `vaadin-router-location-changed` during/after the redirect resolution. Depending on internal ordering, an intermediate event can carry the wildcard route as `location.route`, which has neither field — momentarily clearing the navbar title to `''` even though the destination is `/dashboard`. This is observable when users hit an unknown path.
-
-**Fix:** Either give the wildcard the dashboard's metadata (cheap and harmless because it redirects to dashboard):
-
-```ts
-{
-    path: '(.*)',
-    title: 'Dashboard',
-    subtitle: 'Overview',
-    redirect: '/dashboard',
-},
-```
-
-Or ignore events whose `route.title` is undefined (leave the previous title in place) by guarding the assignment in `src/app.ts:111-112`:
+**Re-review note:** The "guard the assignment" half of the fix DOES live in scope (`src/app.ts:111-112`). A two-line defensive change there would close WR-03's UX symptom without needing to touch the router file:
 
 ```ts
 if (route?.title !== undefined) this.routeTitle = route.title;
 if (route?.subtitle !== undefined) this.routeSubtitle = route.subtitle;
 ```
 
+Currently lines 111-112 unconditionally assign with `?? ''`, which is the exact pattern that lets an intermediate redirect event blank the title.
+
 ## Info
 
-### IN-01: Window-scoped listeners are never removed from `<zt-app>`
+### IN-01: Window-scoped listeners are never removed from `<zt-app>` (unchanged from prior review)
 
 **File:** `src/app.ts:104-113`
 
-**Issue:** Both `popstate` and `vaadin-router-location-changed` listeners are added to `window` in `firstUpdated` and never removed. In production this is harmless because `<zt-app>` is the root and lives for the page lifetime. In tests, every `fixture<ZtApp>(html`<zt-app></zt-app>`)` call (eight cases in `src/app.test.ts`) installs a fresh pair of listeners that survive teardown, accumulating across tests in the same file. This can mask leaks and slow down test runs as the suite grows.
+**Issue:** Unchanged. Both `popstate` and `vaadin-router-location-changed` listeners are added to `window` in `firstUpdated` and never removed. Test impact is now larger because plan 20-05 adds **two more** `fixture<ZtApp>(html\`<zt-app></zt-app>\`)` calls (lines 284 and 339 in the new tests). That brings the listener-leak count in `app.test.ts` to twelve fresh `(popstate, vaadin-router-location-changed)` pairs per full file run, none of which are removed in teardown.
 
-**Fix:** Track the listener references and remove them in `disconnectedCallback`:
+**Fix:** Same as the prior review — track the listener references in instance fields and remove them in `disconnectedCallback()`.
 
-```ts
-private onPopstate = () => { this.currentPath = window.location.pathname; };
-private onRouteChange = (e: Event) => { /* ... */ };
-
-connectedCallback(): void {
-    super.connectedCallback();
-    window.addEventListener('popstate', this.onPopstate);
-    window.addEventListener('vaadin-router-location-changed', this.onRouteChange);
-}
-disconnectedCallback(): void {
-    super.disconnectedCallback();
-    window.removeEventListener('popstate', this.onPopstate);
-    window.removeEventListener('vaadin-router-location-changed', this.onRouteChange);
-}
-```
-
-### IN-02: Regression-guard test in `app.test.ts` does not match the full Vaadin Router 2.x event shape
+### IN-02: Regression-guard test in `app.test.ts` does not match the full Vaadin Router 2.x event shape (unchanged from prior review)
 
 **File:** `src/app.test.ts:221-259`
 
-**Issue:** The synthetic event sets `detail.location.route.{title,subtitle}` only — it omits `detail.router` and `detail.location.params`/`pathname`/etc., which the real Vaadin Router event carries. Today the production handler only reads `detail?.location?.route`, so the test passes. If a future change starts reading any other field on `detail.location` (e.g. `pathname` for redirect-aware decisions) the test will keep passing while production breaks. The comment block at lines 256-258 is also slightly off — it claims `Router.location?.route` "returns undefined because Router.location is an instance property"; that wording will age poorly when phase-20 context is forgotten.
+**Issue:** Unchanged. The synthetic event still only sets `detail.location.route.{title,subtitle}`. Plan 20-05 added two new tests but did not retrofit this one.
 
-**Fix:** Build the synthetic detail to mirror the runtime shape more completely, e.g. `{ router: { location: { route, pathname, params: {}, search: '', hash: '' } }, location: { route, pathname: '/dashboard', params: {}, search: '', hash: '' } }`, and trim the comment to point at the regression risk in production terms ("validates that title/subtitle come from `event.detail.location.route`, not from a Router.location read that was undefined under Vaadin Router 2.x").
+**Fix:** Same as prior review — populate the synthetic detail to mirror the Vaadin Router 2.x runtime shape, and tighten the comment block at lines 256-258.
 
-### IN-03: `pageDashboard.navigate()` and `pageNetworkDetail.navigateBack()` rely on `popstate` rather than Vaadin Router's API
-
-**Files:**
-- `src/pages/dashboard.ts:187-190`
-- `src/pages/network-detail.ts:483-486`
-- `src/pages/networks.ts:129-132`
-
-**Issue:** These call `window.history.pushState({}, '', path)` then `dispatchEvent(new PopStateEvent('popstate'))`. Vaadin Router intercepts `popstate` and re-resolves, then fires `vaadin-router-location-changed`, so this works today — but it is a fragile contract and the listener in `src/app.ts:104-106` only updates `currentPath` on `popstate`, not `routeTitle`/`routeSubtitle`. The title only updates once the router has dispatched its own follow-up event. Prefer `Router.go(path)` (or a `vaadin-router-go` custom event) which goes straight through Vaadin Router's resolver.
-
-This is preexisting code, not introduced by phase 20, but the persistent navbar now makes the (very small) timing gap visible — the page changes content before the title in the navbar updates.
-
-**Fix:** Replace the manual `pushState + popstate` pattern with Vaadin Router's go():
-
-```ts
-import { Router } from '@vaadin/router';
-private navigate(path: string): void { Router.go(path); }
-```
-
-### IN-04: Existing `currentTheme` staleness in `<zt-navbar>` widens under persistent mounting
+### IN-05 (NEW): Settings page theme buttons go stale if user toggles theme via navbar while on /settings
 
 **Files:**
-- `src/components/navbar.ts:15, 107-113, 138-144`
-- `src/app.ts:11-12`
+- `src/pages/settings.ts:10, 73-76`
+- `src/components/navbar.ts:137-142`
 
-**Issue:** `currentTheme` in the navbar is read once at `connectedCallback` from localStorage and never observed afterwards. The persistent-mount refactor in phase 20 means this initial read is the only read for the entire session unless the user toggles via the navbar button itself. CR-01 covers the Settings-page divergence; this Info item flags the deeper design: the persistent navbar should treat `currentTheme` as **input** from the parent `<zt-app>` (single source of truth) rather than reading localStorage itself.
-
-**Fix:** Make `<zt-app>` pass theme down explicitly and remove the localStorage read from `<zt-navbar>`:
+**Issue:** Symmetric counterpart to the (now-closed) CR-01. The persistent navbar's theme button calls `app.toggleTheme()` (navbar.ts:140), which mutates `<zt-app>.theme` and persists localStorage. The persistent navbar's `@property currentTheme` reflects the new value via parent binding — its icon and `aria-label` update correctly. **However**, the `<page-settings>` element is NOT re-mounted on a theme click (only on route change), and `page-settings.currentTheme` is a `@state` seeded ONCE from localStorage in `connectedCallback()`:
 
 ```ts
-// app.ts render():
-<zt-navbar
-    .title=${this.routeTitle}
-    .subtitle=${this.routeSubtitle}
-    .currentTheme=${this.theme}
-    show-logout
-></zt-navbar>
-
-// navbar.ts:
-@property({ type: String }) currentTheme: 'dark' | 'light' = 'dark';
-// drop the connectedCallback localStorage read
+connectedCallback(): void {
+    super.connectedCallback();
+    this.currentTheme = (localStorage.getItem('zt-theme') as 'dark' | 'light') || 'dark';
+}
 ```
 
-This collapses three concerns into one and makes CR-01 impossible by construction.
+After a navbar theme toggle while Settings is the active route, `page-settings.currentTheme` still holds the previous value, and the Dark/Light button "active" class (settings.ts:109, 113) keeps highlighting the wrong button until the user navigates away and back (which triggers re-mount + re-read).
+
+This is the same pattern that CR-01 was about (independent component state that doesn't observe the source of truth), but in the opposite propagation direction (navbar -> settings instead of settings -> navbar). It was not in plan 20-05's scope (CR-01 was the BLOCKER; this is a non-blocking UX glitch on one specific surface).
+
+**Severity rationale:** INFO rather than WARNING because (a) it is non-blocking and (b) the visible-but-stale highlight is recoverable by any navigation. Promote to WARNING if/when Settings gains additional theme-dependent UI that does not self-recover on re-mount.
+
+**Fix:** Either make `<page-settings>` observe `<zt-app>.theme` (push it down via the router outlet's element reference or query `document.querySelector('zt-app').currentTheme` at render time), or listen for a custom event dispatched by `<zt-app>.setTheme()`:
+
+```ts
+// Option A: derive at render time
+private get appTheme(): 'dark' | 'light' {
+    const app = document.querySelector('zt-app') as ZtApp | null;
+    return app?.currentTheme === 'light' ? 'light' : 'dark';
+}
+// then use this.appTheme in render() instead of this.currentTheme
+
+// Option B: have <zt-app>.setTheme() dispatch a 'zt-theme-changed' CustomEvent on window;
+// <page-settings> connectedCallback subscribes, disconnectedCallback unsubscribes.
+```
+
+Option A is the minimal-surface fix and matches the design philosophy of the 20-05 refactor (single source of truth in `<zt-app>`). Option B is more aligned with web-component idioms.
+
+### IN-06 (NEW): CR-01 regression-guard test does not exercise navbar's `@property` decorator chain
+
+**File:** `src/app.test.ts:13, 261-317`
+
+**Issue:** Line 13 mocks `./components/navbar.js` to `{}` for the entire test file. This means `<zt-navbar>`'s `@customElement('zt-navbar')` decorator never executes, the class is never registered with `customElements`, and any `<zt-navbar>` in the rendered template is an un-upgraded `HTMLElement`. Lit's `.currentTheme=${this.theme}` property binding still sets `currentTheme` as a plain JS property on that element, but the navbar's `@property` reactive system, attribute conversion, and re-render trigger are NOT exercised.
+
+The CR-01 regression test's primary assertion is:
+```ts
+expect((navbar as any).currentTheme).toBe('light');  // line 312
+```
+This passes as long as `<zt-app>`'s render template sets the property — which is exactly half of the propagation chain. If a future refactor removed the `@property` decorator from `navbar.ts` (regressing to a non-reactive class field) the navbar's icon would NOT update in production, but this test would still pass because Lit's property binding doesn't care whether the target is a reactive property or just a class field.
+
+The companion test in `src/components/navbar.test.ts` does load the real navbar module and would catch removal of `@property`, but that test does not cover the parent->child wiring through `<zt-app>`. **The intersection — "does the live <zt-app> -> <zt-navbar> @property binding cause a render in the real navbar?" — is uncovered.**
+
+**Severity rationale:** INFO because the bug class this would miss (silently breaking the navbar's @property) is caught by the navbar's own unit tests, and a real production smoke test would surface it. The test still validates the `<zt-app>` half of the contract (that the `setTheme()` call mutates state and that Lit pushes the value via the binding).
+
+**Fix:** Either drop the `vi.mock('./components/navbar.js', () => ({}))` mock from `app.test.ts` (load the real navbar, accept the cost of fetch stubs needed for its health check), or add a single integration-style test in a separate file that loads BOTH `app.js` and `navbar.js` un-mocked and asserts the navbar's `aria-label` reflects the theme after `app.setTheme()`.
+
+### IN-07 (NEW): `matchMedia` `vi.spyOn` in the two new tests is not restored, leaks across tests in the same describe block
+
+**File:** `src/app.test.ts:273-282, 328-337`
+
+**Issue:** Both new tests call `vi.spyOn(window, 'matchMedia').mockImplementation(...)` inside the `it` block. The describe-level `beforeEach` uses `vi.clearAllMocks()` (line 145) which only clears call history — it does NOT restore spy implementations. The describe-level `afterEach` (lines 155-161) only restores `window.location`, not mocks.
+
+Consequence: once the CR-01 test (line 261) installs the `matchMedia` stub returning `{ matches: false, ... }`, that stub persists for every subsequent test in the same describe block AND for any test in subsequent describe blocks within the same file. The System UX guard test (line 319) re-installs the same stub, which is harmless because it's the same implementation, but the ordering creates a fragility — if a later test were added that depends on the default happy-dom matchMedia behavior (e.g., a test that exercises the `firstUpdated` matchMedia fallback path with a non-stubbed environment), it would fail in mysterious ways depending on test execution order.
+
+The two-line `vi.restoreAllMocks()` pattern would prevent this; or the spy could be installed in `beforeEach`/torn down in `afterEach` instead of being inlined.
+
+**Severity rationale:** INFO because the current test suite happens to not depend on un-stubbed matchMedia post these two tests. Would become a WARNING if the suite grows or test ordering changes.
+
+**Fix:**
+```ts
+afterEach(() => {
+    Object.defineProperty(window, 'location', { ... });
+    vi.restoreAllMocks();  // add this
+});
+```
+Or hoist the `matchMedia` stub to the describe-level `beforeEach` so both tests share one deterministic setup.
 
 ---
 
-_Reviewed: 2026-05-14_
+## Re-Evaluation Summary
+
+| Prior finding | Status | Notes |
+|---|---|---|
+| **CR-01** (BLOCKER) — Settings -> persistent navbar theme propagation broken | **CLOSED** | Option B / IN-04 design lands cleanly. Single source of truth at `<zt-app>.theme`; parent-bound `@property` on navbar; `app.setTheme()` is the sole writer. Regression test (with caveat IN-06) guards the contract. |
+| **WR-01** (WARNING) — listener-after-initRouter race | **UNCHANGED** | Deferred per 20-05's `<deferred>` block; not touched by the plan. |
+| **WR-02** (WARNING) — empty title/subtitle on first paint | **UNCHANGED** | Deferred per 20-05's `<deferred>` block; not touched by the plan. |
+| **WR-03** (WARNING) — catch-all route metadata gap | **UNCHANGED (out of re-review scope for fix)** | `src/router/index.ts` not in scope. Partial in-scope fix possible in `app.ts:111-112` (defensive `!== undefined` guard). |
+| **IN-01** (INFO) — window listeners never removed | **UNCHANGED, slightly worsened** | Two more `fixture<ZtApp>` calls in 20-05's new tests = two more pairs of leaked listeners per file run. |
+| **IN-02** (INFO) — synthetic event shape mismatch | **UNCHANGED** | Not touched by 20-05. |
+| **IN-03** (INFO) — `pushState + popstate` pattern in page navigation | **UNCHANGED (out of re-review scope)** | Lives in `src/pages/dashboard.ts`, `network-detail.ts`, `networks.ts` — not in this re-review's four files. |
+| **IN-04** (INFO) — navbar `currentTheme` staleness, design-level | **CLOSED** | Adopted as the implementation strategy for the CR-01 fix. The design Option B = IN-04 fix. |
+| **IN-05** (NEW INFO) — Settings page buttons stale on navbar theme click | NEW | Symmetric to CR-01 in the opposite direction. Non-blocking UX glitch on one route. |
+| **IN-06** (NEW INFO) — CR-01 test doesn't exercise navbar `@property` chain | NEW | Test mocks navbar module to `{}`, so only `<zt-app>` half of the propagation is exercised. |
+| **IN-07** (NEW INFO) — `matchMedia` spy not restored in new tests | NEW | Test hygiene; not currently affecting other tests but fragile. |
+
+**Verdict:** Phase 20 is shippable. The original BLOCKER is closed by construction. Three pre-existing WARNINGs remain deferred (consistent with plan 20-05's stated scope). Three new INFO items surface non-blocking issues for follow-up.
+
+---
+
+_Reviewed: 2026-05-15_
 _Reviewer: Claude (gsd-code-reviewer)_
 _Depth: standard_
+_Re-review scope: post-20-05 / diff_base 170473e_
