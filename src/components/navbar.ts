@@ -38,15 +38,27 @@ export class ZtNavbar extends LitElement {
                 gap: 1rem;
             }
 
+            /* Pin stacked title/subtitle to 28px content height so the header band
+               (32px padding + 28px content + 1px border = 61px) matches the sidebar
+               .brand row, which is dictated by the 28px-tall <zt-logo>. */
+            .nav-title-stack {
+                min-height: 28px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
             .nav-title {
                 font-size: var(--font-size-lg);
                 font-weight: 600;
                 color: var(--color-text-primary);
+                line-height: 1;
             }
 
             .nav-subtitle {
                 font-size: var(--font-size-xs);
                 color: var(--color-text-muted);
+                line-height: 1;
             }
 
             .nav-right {
@@ -159,7 +171,7 @@ export class ZtNavbar extends LitElement {
     render() {
         return html`
             <div class="nav-left">
-                <div>
+                <div class="nav-title-stack">
                     <div class="nav-title">${this.title}</div>
                     ${this.subtitle ? html`<div class="nav-subtitle">${this.subtitle}</div>` : ''}
                 </div>
