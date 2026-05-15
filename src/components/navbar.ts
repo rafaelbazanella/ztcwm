@@ -12,7 +12,7 @@ export class ZtNavbar extends LitElement {
     @property({ type: Boolean, attribute: 'show-logout' }) showLogout = true;
     @state() private connected = false;
     @state() private checking = true;
-    @state() private currentTheme = 'dark';
+    @property({ type: String }) currentTheme: 'dark' | 'light' = 'dark';
 
     private healthCheckInterval: ReturnType<typeof setInterval> | null = null;
 
@@ -106,7 +106,6 @@ export class ZtNavbar extends LitElement {
 
     connectedCallback(): void {
         super.connectedCallback();
-        this.currentTheme = localStorage.getItem('zt-theme') || 'dark';
         // Delay initial health check to avoid interfering with synchronous test assertions
         setTimeout(() => this.checkConnection(), 100);
         this.healthCheckInterval = setInterval(() => this.checkConnection(), 30000);
@@ -139,7 +138,6 @@ export class ZtNavbar extends LitElement {
         const app = document.querySelector('zt-app') as any;
         if (app?.toggleTheme) {
             app.toggleTheme();
-            this.currentTheme = app.currentTheme;
         }
     }
 
