@@ -84,10 +84,15 @@ A secure, role-based admin interface where the ZeroTier auth token never leaves 
 - ✓ README + docs/ refreshed against v2.0+ codebase (architecture, development) — v3.0
 - ✓ Paste-ready hardened EC2 deploy guide (Ubuntu 24.04 + Amazon Linux 2023) — v3.0
 - ✓ Docs guardrail in CI (`docs-audit.test.ts`, 43 assertions across DOCS-01..06) — v3.0
+- ✓ Member network-detail row surfaces installed ZeroTier client version with neutral placeholder on missing/offline — v3.1 (Phase 18)
+- ✓ Full English standardization — zero Portuguese strings in SPA pages, components, modals, toasts, errors, or backend response messages surfaced in UI — v3.1 (Phase 19)
+- ✓ Users-page action buttons (edit, reset password, delete) render Lucide icons via `lucide-static` inside the `.btn-*` system; nested-shadow regression test pinned to `.btn-icon svg` 16×16 — v3.1 (Phase 20)
+- ✓ `<zt-navbar>` is a persistent shell component mounted once by `<zt-app>` outside the page outlet; survives route changes; aligned with `<div class="brand">` brand-row geometry — v3.1 (Phase 20)
+- ✓ Single-source-of-truth theme propagation: `<zt-app>.theme` is the sole authoritative state; `<zt-app>.setTheme(target, options?)` is the sole writer; `<zt-navbar>.currentTheme` is a parent-bound `@property`; 'System' theme preserved via `{ persist: false }` opt-out (CR-01 closed by construction; locked by 2 regression tests) — v3.1 (Phase 20-05)
 
 ### Active
 
-(v3.1 requirements being defined — see `.planning/REQUIREMENTS.md` once written.)
+(v3.1 requirements all validated. Milestone v3.1 is ready to close via `/gsd-complete-milestone`.)
 
 ### Out of Scope
 
@@ -182,4 +187,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-04 — v3.1 milestone started (Polish & i18n Cleanup)*
+*Last updated: 2026-05-15 — Phase 20 complete (CR-01 closed via 20-05 / Option B / IN-04); all 7 v3.1 requirements validated; milestone v3.1 ready to close*

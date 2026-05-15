@@ -20,12 +20,12 @@ Requirements for the v3.1 release. Each maps to a roadmap phase.
 
 ### Users Page
 
-- [ ] **USERS-01**: Users-page action buttons for **edit**, **reset password**, and **delete** display Lucide icons (via `lucide-static`), restoring the visual standard broken in the v3.0 `.btn-*` migration
+- [x] **USERS-01**: Users-page action buttons for **edit**, **reset password**, and **delete** display Lucide icons (via `lucide-static`), restoring the visual standard broken in the v3.0 `.btn-*` migration ✓ verified 2026-05-15 (Phase 20)
 
 ### Layout
 
-- [ ] **LAYOUT-01**: `<zt-navbar>` renders outside the page outlet (`<div id="outlet">`) so it stays mounted across navigation — page content alone re-renders on route change
-- [ ] **LAYOUT-02**: Navbar aligns vertically with the brand logo container (`<div class="brand">`) at the top of the viewport — no gap, no offset
+- [x] **LAYOUT-01**: `<zt-navbar>` renders outside the page outlet (`<div id="outlet">`) so it stays mounted across navigation — page content alone re-renders on route change ✓ verified 2026-05-15 (Phase 20; CR-01 propagation gap closed via Option B / IN-04 in 20-05; visual persistence smoke remains in 20-HUMAN-UAT.md)
+- [x] **LAYOUT-02**: Navbar aligns vertically with the brand logo container (`<div class="brand">`) at the top of the viewport — no gap, no offset ✓ verified 2026-05-15 (Phase 20; geometry contract enforced in code by navbar.ts:23-33 mirroring sidebar.ts:32-40; pixel-level visual confirmation remains in 20-HUMAN-UAT.md)
 
 ## v3.2+ Requirements
 
@@ -55,9 +55,9 @@ Updated by `gsd-roadmapper` on 2026-05-04.
 | MEMBER-02 | Phase 18 | Complete (2026-05-11 working tree; commits pending) |
 | I18N-01 | Phase 19 | Complete (2026-05-12) |
 | I18N-02 | Phase 19 | Complete (2026-05-12) |
-| USERS-01 | Phase 20 | Pending |
-| LAYOUT-01 | Phase 20 | Pending |
-| LAYOUT-02 | Phase 20 | Pending |
+| USERS-01 | Phase 20 | Complete (2026-05-15) |
+| LAYOUT-01 | Phase 20 | Complete (2026-05-15; CR-01 closed via 20-05) |
+| LAYOUT-02 | Phase 20 | Complete (2026-05-15; visual UAT pending in 20-HUMAN-UAT.md) |
 
 **Coverage:**
 - v3.1 requirements: 7 total
@@ -66,4 +66,4 @@ Updated by `gsd-roadmapper` on 2026-05-04.
 
 ---
 *Requirements defined: 2026-05-04*
-*Last updated: 2026-05-11 — MEMBER-01 and MEMBER-02 marked complete by Phase 18 (working tree only; commits pending user action — see `.planning/phases/18-member-zt-client-version/18-02-SUMMARY.md`)*
+*Last updated: 2026-05-15 — USERS-01, LAYOUT-01, LAYOUT-02 marked complete by Phase 20 (all 7 v3.1 requirements now verified; visual UAT items pending in `.planning/phases/20-shell-users-page-regression-fixes/20-HUMAN-UAT.md`)*

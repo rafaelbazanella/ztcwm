@@ -13,7 +13,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 
 - [x] **Phase 18: Member ZT Client Version** - Surface each member's installed ZeroTier client version next to the online indicator on the network-detail screen, with a neutral placeholder when unknown ✓ verified 2026-05-11
 - [x] **Phase 19: Internationalization Sweep** - Standardize every visible UI string and user-facing backend message to English ✓ verified 2026-05-12
-- [ ] **Phase 20: Shell & Users-Page Regression Fixes** - Restore Lucide icons on Users-page action buttons, lift the navbar out of the routed outlet, and align it with the brand logo
+- [x] **Phase 20: Shell & Users-Page Regression Fixes** - Restore Lucide icons on Users-page action buttons, lift the navbar out of the routed outlet, and align it with the brand logo ✓ verified 2026-05-15
 
 ## Phase Details
 
@@ -69,7 +69,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 |-------|----------------|--------|-----------|
 | 18. Member ZT Client Version | 2/2 | ✓ Complete (verified) | 2026-05-11 |
 | 19. Internationalization Sweep | 2/2 | ✓ Complete (verified) | 2026-05-12 |
-| 20. Shell & Users-Page Regression Fixes | 5/5 | Gap-closure plan 20-05 executed (CR-01 closed); awaiting verification | - |
+| 20. Shell & Users-Page Regression Fixes | 5/5 | ✓ Complete (verified; 4 deferred UAT items in 20-HUMAN-UAT.md) | 2026-05-15 |
 
 ## Dependencies
 
@@ -95,4 +95,4 @@ All three phases are independent in code terms. The chosen order (18 → 19 → 
 
 ---
 *Roadmap created: 2026-05-04*
-*Last updated: 2026-05-14 — Phase 20 plans authored (4 plans across 3 waves; commits pending)*
+*Last updated: 2026-05-15 — Phase 20 complete (CR-01 closed via 20-05 gap closure; 5/5 plans; 4 UAT items deferred to 20-HUMAN-UAT.md)*

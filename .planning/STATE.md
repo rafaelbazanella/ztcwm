@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
-status: executing
-stopped_at: "Phase 20 UI-SPEC approved (6/6 dimensions, 1 non-blocking FLAG on Dim 5 spacing). UI design contract locked at `.planning/phases/20-shell-users-page-regression-fixes/20-UI-SPEC.md` — reuses 3 existing `--space-*` tokens, 4 of 7 font sizes, accent reserved-for list pinned to 4 elements, destructive color only in confirmation modal (delete-trigger icon stays neutral). Unified header band geometry pinned to navbar `:host { padding: 1rem 1.25rem; border-bottom: 1px solid var(--color-border) }` to mirror `.brand` at `src/components/sidebar.ts:36-37`. FLAG: `0.4rem` `.btn-icon` padding inherited from `shared.ts:83` per SC #4 lock — recommend explicit "Exceptions" entry in UI-SPEC if planner wants to close the read cleanly."
-last_updated: "2026-05-15T18:41:49.857Z"
-last_activity: 2026-05-15 -- Phase 20 execution started
+status: milestone_ready
+stopped_at: "Phase 20 complete — CR-01 closed via 20-05 gap closure (Option B / IN-04). 5/5 plans verified (status: human_needed → approved by user). 4 deferred UAT items in 20-HUMAN-UAT.md (visual LAYOUT-02 alignment, navbar persistence smoke, CR-01 theme-toggle browser confirmation, WR-02 title-flash perceptibility). 3 deferred WARNINGs (WR-01/02/03) tracked for future plans. Milestone v3.1 all 3 phases complete (18, 19, 20)."
+last_updated: "2026-05-15T19:10:00.000Z"
+last_activity: 2026-05-15 -- Phase 20 complete (milestone v3.1 ready to close)
 progress:
   total_phases: 3
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
-  percent: 89
+  completed_plans: 9
+  percent: 100
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-04)
 
 **Core value:** A secure, role-based admin interface where the ZeroTier auth token never leaves the server.
-**Current focus:** Phase 20 — shell-users-page-regression-fixes
+**Current focus:** Milestone v3.1 ready to close — all 3 phases (18, 19, 20) complete and verified
 
 ## Current Position
 
-Phase: 20 (shell-users-page-regression-fixes) — EXECUTING
-Plan: 1 of 5
-Status: Executing Phase 20
-Last activity: 2026-05-15 -- Phase 20 execution started
+Phase: 20 (shell-users-page-regression-fixes) — ✓ COMPLETE
+Plan: 5 of 5 (CR-01 gap-closure landed via 20-05; Option B / IN-04)
+Status: Milestone v3.1 ready to close (`/gsd-complete-milestone`)
+Last activity: 2026-05-15 -- Phase 20 complete (CR-01 closed; 4 UAT items deferred to 20-HUMAN-UAT.md)
 
-Progress: [██████░░░░] 67% (2/3 phases complete; 8/8 plans done across milestone; Phase 20 at 4/4 plans pending verification)
+Progress: [██████████] 100% (3/3 phases complete; 9/9 plans done across milestone v3.1)
 
 ## Performance Metrics
 
@@ -111,6 +111,6 @@ None. All seven v3.1 requirements are well-scoped polish items with no external 
 
 ## Session Continuity
 
-Last session: 2026-05-14
-Stopped at: Phase 20 UI-SPEC approved (6/6 dimensions, 1 non-blocking FLAG on Dim 5 spacing). UI design contract locked at `.planning/phases/20-shell-users-page-regression-fixes/20-UI-SPEC.md` — reuses 3 existing `--space-*` tokens, 4 of 7 font sizes, accent reserved-for list pinned to 4 elements, destructive color only in confirmation modal (delete-trigger icon stays neutral). Unified header band geometry pinned to navbar `:host { padding: 1rem 1.25rem; border-bottom: 1px solid var(--color-border) }` to mirror `.brand` at `src/components/sidebar.ts:36-37`. FLAG: `0.4rem` `.btn-icon` padding inherited from `shared.ts:83` per SC #4 lock — recommend explicit "Exceptions" entry in UI-SPEC if planner wants to close the read cleanly.
-Resume file: .planning/phases/20-shell-users-page-regression-fixes/20-UI-SPEC.md (then proceed to `/gsd-plan-phase 20`)
+Last session: 2026-05-15
+Stopped at: Phase 20 complete — CR-01 closed via 20-05 gap closure (Option B / IN-04). 5/5 plans verified; user-approved with 4 UAT items deferred to 20-HUMAN-UAT.md. Milestone v3.1 all 3 phases complete.
+Resume file: `/gsd-complete-milestone` to archive v3.1 and roll over to v3.2, OR `/gsd-verify-work 20` to walk through the 4 deferred UAT items in a real browser before closing.
