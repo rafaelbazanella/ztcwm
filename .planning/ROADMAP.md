@@ -60,7 +60,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
   - [x] 20-02-PLAN.md — LAYOUT-01 foundation: add title/subtitle metadata to all 10 authenticated routes in src/router/index.ts (Wave 1)
   - [x] 20-03-PLAN.md — LAYOUT-01 + LAYOUT-02: mount persistent <zt-navbar> in <zt-app>, match .brand row geometry + sticky positioning, app.test.ts visibility-gate tests (Wave 2, depends on 20-02)
   - [x] 20-04-PLAN.md — Cleanup: delete 13 per-page <zt-navbar> invocations + 10 dead imports, remove users.test.ts navbar assertion (D-15), delete dead --navbar-height token (Wave 3, depends on 20-01 and 20-03)
-  - [ ] 20-05-PLAN.md — Gap closure (CR-01): thread <zt-app>.theme to <zt-navbar>.currentTheme via property binding, add <zt-app>.setTheme(target), reroute settings.ts through it, add regression test (Wave 1, gap_closure)
+  - [x] 20-05-PLAN.md — Gap closure (CR-01): thread <zt-app>.theme to <zt-navbar>.currentTheme via property binding, add <zt-app>.setTheme(target), reroute settings.ts through it, add regression test (Wave 1, gap_closure)
 **UI hint**: yes
 
 ## Progress
@@ -69,7 +69,7 @@ Resolve regressions and UX gaps surfaced after v3.0: surface ZT client version p
 |-------|----------------|--------|-----------|
 | 18. Member ZT Client Version | 2/2 | ✓ Complete (verified) | 2026-05-11 |
 | 19. Internationalization Sweep | 2/2 | ✓ Complete (verified) | 2026-05-12 |
-| 20. Shell & Users-Page Regression Fixes | 4/5 | Gap-closure plan 20-05 created (CR-01); awaiting execution | - |
+| 20. Shell & Users-Page Regression Fixes | 5/5 | Gap-closure plan 20-05 executed (CR-01 closed); awaiting verification | - |
 
 ## Dependencies
 

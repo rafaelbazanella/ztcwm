@@ -4,8 +4,8 @@ milestone: v3.1
 milestone_name: milestone
 status: executing
 stopped_at: "Phase 20 UI-SPEC approved (6/6 dimensions, 1 non-blocking FLAG on Dim 5 spacing). UI design contract locked at `.planning/phases/20-shell-users-page-regression-fixes/20-UI-SPEC.md` — reuses 3 existing `--space-*` tokens, 4 of 7 font sizes, accent reserved-for list pinned to 4 elements, destructive color only in confirmation modal (delete-trigger icon stays neutral). Unified header band geometry pinned to navbar `:host { padding: 1rem 1.25rem; border-bottom: 1px solid var(--color-border) }` to mirror `.brand` at `src/components/sidebar.ts:36-37`. FLAG: `0.4rem` `.btn-icon` padding inherited from `shared.ts:83` per SC #4 lock — recommend explicit "Exceptions" entry in UI-SPEC if planner wants to close the read cleanly."
-last_updated: "2026-05-15T18:38:00.331Z"
-last_activity: 2026-05-15 -- Phase 20 planning complete
+last_updated: "2026-05-15T18:41:49.857Z"
+last_activity: 2026-05-15 -- Phase 20 execution started
 progress:
   total_phases: 3
   completed_phases: 2
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-04)
 
 **Core value:** A secure, role-based admin interface where the ZeroTier auth token never leaves the server.
-**Current focus:** Milestone v3.1 — Polish & i18n Cleanup (Phases 18 + 19 complete; Phase 20 next)
+**Current focus:** Phase 20 — shell-users-page-regression-fixes
 
 ## Current Position
 
-Phase: 20 — Shell & Users-Page Regression Fixes (all plans executed; verification gaps_found)
-Plan: 4 of 4 in current phase
-Status: Ready to execute
-Last activity: 2026-05-15 -- Phase 20 planning complete
+Phase: 20 (shell-users-page-regression-fixes) — EXECUTING
+Plan: 1 of 5
+Status: Executing Phase 20
+Last activity: 2026-05-15 -- Phase 20 execution started
 
 Progress: [██████░░░░] 67% (2/3 phases complete; 8/8 plans done across milestone; Phase 20 at 4/4 plans pending verification)
 
