@@ -257,4 +257,111 @@ describe('zt-app persistent navbar (LAYOUT-01)', () => {
         // because Router.location is an instance property in Vaadin Router 2.x)
         // would leave titleProp === '' here — this assertion is the regression guard.
     });
+
+    it('navbar.currentTheme reflects <zt-app>.theme after app.setTheme() (CR-01 regression guard)', async () => {
+        mockPathname('/dashboard');
+        vi.mocked(checkSetupStatus).mockResolvedValue(false);
+        vi.mocked(checkAuth).mockResolvedValue(true);
+
+        // Ensure no prior theme is persisted (the test fixture starts clean)
+        localStorage.removeItem('zt-theme');
+        // Force deterministic initial-theme resolution: app.ts firstUpdated falls
+        // back to window.matchMedia('(prefers-color-scheme: light)') when the
+        // localStorage key is absent. happy-dom's default matchMedia may resolve
+        // 'light' true; stub it to false here so the app boots in 'dark' theme
+        // and the initial-state assertion below is unambiguous.
+        vi.spyOn(window, 'matchMedia').mockImplementation((q: string) => ({
+            matches: false,
+            media: q,
+            onchange: null,
+            addListener: () => {},
+            removeListener: () => {},
+            addEventListener: () => {},
+            removeEventListener: () => {},
+            dispatchEvent: () => false,
+        }) as unknown as MediaQueryList);
+
+        const el = await fixture<ZtApp>(html`<zt-app></zt-app>`);
+        await el.updateComplete;
+        await new Promise(r => setTimeout(r, 100));
+
+        // Initial state: <zt-app>.theme defaults to 'dark'; the persistent navbar
+        // receives it via the .currentTheme=${this.theme} property binding in
+        // src/app.ts's render template. With the binding in place (CR-01 fix),
+        // the navbar's currentTheme @property mirrors the app's theme.
+        const navbar = el.shadowRoot!.querySelector('zt-navbar');
+        expect(navbar).toBeTruthy();
+        expect((navbar as any).currentTheme).toBe('dark');
+        expect(el.currentTheme).toBe('dark');
+
+        // Trigger Settings-style theme change via the public setTheme() method
+        // — same call path that src/pages/settings.ts setTheme() uses on its
+        // dark/light branch (default { persist: true }).
+        el.setTheme('light');
+
+        // Allow Lit to flush the @state -> render -> property-binding cycle.
+        await el.updateComplete;
+        await new Promise(r => setTimeout(r, 20));
+        await el.updateComplete;
+
+        // Primary CR-01 assertion: the navbar's @property reflects the new app theme.
+        // Pre-fix code (where <zt-navbar>.currentTheme was a @state seeded only
+        // from localStorage at connectedCallback, and <zt-app> did not bind
+        // .currentTheme on the navbar) would leave this at 'dark' — this
+        // assertion is the regression guard.
+        expect((navbar as any).currentTheme).toBe('light');
+
+        // <zt-app>'s state and persistence are also correct.
+        expect(el.currentTheme).toBe('light');
+        expect(localStorage.getItem('zt-theme')).toBe('light');
+    });
+
+    it('app.setTheme(target, { persist: false }) updates @state without writing localStorage (System theme UX guard)', async () => {
+        mockPathname('/dashboard');
+        vi.mocked(checkSetupStatus).mockResolvedValue(false);
+        vi.mocked(checkAuth).mockResolvedValue(true);
+
+        // Start with a clean slate: this asserts the post-call key absence is real,
+        // not residual from a prior test.
+        localStorage.removeItem('zt-theme');
+        // Deterministic boot theme — see CR-01 test above for rationale.
+        vi.spyOn(window, 'matchMedia').mockImplementation((q: string) => ({
+            matches: false,
+            media: q,
+            onchange: null,
+            addListener: () => {},
+            removeListener: () => {},
+            addEventListener: () => {},
+            removeEventListener: () => {},
+            dispatchEvent: () => false,
+        }) as unknown as MediaQueryList);
+
+        const el = await fixture<ZtApp>(html`<zt-app></zt-app>`);
+        await el.updateComplete;
+        await new Promise(r => setTimeout(r, 100));
+
+        const navbar = el.shadowRoot!.querySelector('zt-navbar');
+        expect(navbar).toBeTruthy();
+
+        // Trigger the System-style call path: settings.ts's 'system' branch invokes
+        // app.setTheme(resolved, { persist: false }) so the live UI updates without
+        // poisoning localStorage with a one-shot snapshot. Next boot's firstUpdated
+        // must see the key absent and fall back to matchMedia (the pre-Phase-20
+        // 'System' UX contract).
+        el.setTheme('light', { persist: false });
+
+        await el.updateComplete;
+        await new Promise(r => setTimeout(r, 20));
+        await el.updateComplete;
+
+        // Primary System-UX assertion: localStorage was NOT written despite the
+        // theme mutation. On a buggy implementation that always persists, this
+        // would be 'light' — the test would fail.
+        expect(localStorage.getItem('zt-theme')).toBeNull();
+
+        // The live UI must still update: state is mutated and the navbar's
+        // property binding fires regardless of persistence mode.
+        expect(el.currentTheme).toBe('light');
+        expect((navbar as any).currentTheme).toBe('light');
+    });
 });
