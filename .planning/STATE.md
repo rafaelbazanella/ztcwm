@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: executing
-stopped_at: Phase 20 all 4 plans executed and merged; verification ran with status=gaps_found. CR-01 BLOCKER: persistent-navbar refactor unmasked an existing Settings → theme-toggle two-way-binding gap (setTheme() bypasses app.toggleTheme(); navbar reads localStorage only at connectedCallback; pre-Phase-20 the per-page remount masked this). Run /gsd-plan-phase 20 --gaps to plan closure, or accept via VERIFICATION.md override.
-last_updated: "2026-05-14T17:10:00.000Z"
-last_activity: 2026-05-14 -- Phase 20 Wave 3 merged (20-04 cleanup: deleted 13 per-page <zt-navbar> invocations + 10 dead imports from 10 page files, removed users.test.ts navbar test block (D-15), dropped dead --navbar-height token from theme.ts; kept navbar.ts + navbar.test.ts components per D-14; merge conflict in users.test.ts resolved by keeping 20-01's D-03 regression test + dropping the pre-Phase-20 navbar test). Post-merge tests 685/693 pass (-1 from Wave 2 = the deleted navbar test). All 4 plans complete; ready for verification.
+stopped_at: "Phase 20 UI-SPEC approved (6/6 dimensions, 1 non-blocking FLAG on Dim 5 spacing). UI design contract locked at `.planning/phases/20-shell-users-page-regression-fixes/20-UI-SPEC.md` — reuses 3 existing `--space-*` tokens, 4 of 7 font sizes, accent reserved-for list pinned to 4 elements, destructive color only in confirmation modal (delete-trigger icon stays neutral). Unified header band geometry pinned to navbar `:host { padding: 1rem 1.25rem; border-bottom: 1px solid var(--color-border) }` to mirror `.brand` at `src/components/sidebar.ts:36-37`. FLAG: `0.4rem` `.btn-icon` padding inherited from `shared.ts:83` per SC #4 lock — recommend explicit "Exceptions" entry in UI-SPEC if planner wants to close the read cleanly."
+last_updated: "2026-05-15T18:38:00.331Z"
+last_activity: 2026-05-15 -- Phase 20 planning complete
 progress:
   total_phases: 3
   completed_phases: 2
-  total_plans: 4
+  total_plans: 9
   completed_plans: 8
-  percent: 67
+  percent: 89
 ---
 
 # Project State
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 Phase: 20 — Shell & Users-Page Regression Fixes (all plans executed; verification gaps_found)
 Plan: 4 of 4 in current phase
-Status: Gaps found — CR-01 theme-toggle regression (BLOCKER from code review confirmed by verifier)
-Last activity: 2026-05-14 -- Wave 3 merged: 20-04 cleanup removed 13 per-page `<zt-navbar>` invocations, 10 dead imports, the stale navbar test block in users.test.ts (D-15), and the dead `--navbar-height` token from theme.ts; navbar.ts component and its tests preserved (D-14). Merge conflict in users.test.ts (3-way semantic gap: HEAD had both pre-Phase-20 navbar test AND 20-01's D-03 regression test; branch had neither) resolved by keeping the D-03 test and dropping the navbar test — matches D-15 intent. Post-merge tests: 685 passed / 8 skipped / 33 files. Final grep invariants: 0 `<zt-navbar` in pages, 0 `components/navbar` imports in pages, 0 `--navbar-height` anywhere in src/, navbar.ts/navbar.test.ts retained.
+Status: Ready to execute
+Last activity: 2026-05-15 -- Phase 20 planning complete
 
 Progress: [██████░░░░] 67% (2/3 phases complete; 8/8 plans done across milestone; Phase 20 at 4/4 plans pending verification)
 
