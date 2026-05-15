@@ -3,6 +3,7 @@ import { customElement, state } from 'lit/decorators.js';
 import { theme } from '../styles/theme.js';
 import { sharedStyles } from '../styles/shared.js';
 import { toastService } from '../services/index.js';
+import type { ZtApp } from '../app.js';
 
 @customElement('page-settings')
 export class PageSettings extends LitElement {
@@ -75,17 +76,20 @@ export class PageSettings extends LitElement {
     }
 
     private setTheme(theme: 'dark' | 'light' | 'system'): void {
+        const app = document.querySelector('zt-app') as ZtApp | null;
         if (theme === 'system') {
-            localStorage.removeItem('zt-theme');
             const prefersDark = !window.matchMedia('(prefers-color-scheme: light)').matches;
-            this.currentTheme = prefersDark ? 'dark' : 'light';
+            const resolved: 'dark' | 'light' = prefersDark ? 'dark' : 'light';
+            this.currentTheme = resolved;
+            if (app) {
+                app.setTheme(resolved, { persist: false });
+            }
+            localStorage.removeItem('zt-theme');
         } else {
             this.currentTheme = theme;
-            localStorage.setItem('zt-theme', theme);
-        }
-        const app = document.querySelector('zt-app');
-        if (app) {
-            app.setAttribute('theme', this.currentTheme);
+            if (app) {
+                app.setTheme(theme);
+            }
         }
     }
 
