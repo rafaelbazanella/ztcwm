@@ -40,12 +40,15 @@ export class ZtNavbar extends LitElement {
 
             /* Pin stacked title/subtitle to 28px content height so the header band
                (32px padding + 28px content + 1px border = 61px) matches the sidebar
-               .brand row, which is dictated by the 28px-tall <zt-logo>. */
+               .brand row, which is dictated by the 28px-tall <zt-logo>. height
+               (not min-height) + overflow: hidden prevents Inter's intrinsic line
+               metrics from growing the box past 28px under flex centering. */
             .nav-title-stack {
-                min-height: 28px;
+                height: 28px;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                overflow: hidden;
             }
 
             .nav-title {
