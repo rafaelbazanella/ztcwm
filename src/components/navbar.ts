@@ -26,7 +26,7 @@ export class ZtNavbar extends LitElement {
                 z-index: 50;
                 background: var(--color-bg-secondary);
                 border-bottom: 1px solid var(--color-border);
-                padding: 1rem 1.25rem;
+                padding: 0.83rem 1.25rem;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
