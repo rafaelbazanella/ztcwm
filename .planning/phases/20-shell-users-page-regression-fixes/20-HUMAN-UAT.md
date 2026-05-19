@@ -9,18 +9,18 @@ completed: 2026-05-19T00:00:00Z
 
 ## Current Test
 
-[testing complete — 3/4 passed, 1 issue → diagnosis in progress]
+[testing complete — 4/4 passed (UAT-1 closed via f979081)]
 
 ## Tests
 
 ### 1. Visual LAYOUT-02 alignment check (carried forward from previous verification — geometry contract unchanged by 20-05)
 expected: Open /dashboard in dev (npm run dev); inspect the top of the viewport — the navbar's bottom border lines up pixel-for-pixel with the sidebar `<div class="brand">` row's bottom border. No gap, no offset, no shift. SC #3.
-result: issue
-reported: "ainda não está alinhado, percebi que se eu alterar os valores de padding, na ferramenta de inspect, de .brand para '1.2rem 1.25rem', aí sim fica perfeitamente alinhado."
-reported_at: 2026-05-19
-severity: major
-diagnostic_insight: User identified via DevTools that the fix landed at commit 8f622f1 (.nav-title-stack with min-height: 28px) did NOT fully resolve the alignment. The remaining gap is closed only when the SIDEBAR `.brand` row padding is bumped from `1rem 1.25rem` to `1.2rem 1.25rem` — i.e. the navbar band is ~3.2px taller than .brand. Likely root cause: navbar's stacked title/subtitle content (16px + 12px = 28px nominal) compresses to less than the `<zt-logo>` rendered height OR the .nav-title-stack min-height is computed against a baseline that includes line-height padding on the title font. Either bump .brand padding to match navbar OR reduce navbar's content min-height OR introduce a shared --header-band-padding token. Geometry mirror approach (navbar.ts:23-33 mirrors sidebar.ts:32-40 byte-for-byte) is no longer accurate post-fix.
-prior_result: issue → fixed 2026-05-15. Gap reported by user (screenshot showing ~14px taller navbar). Root cause: UI-SPEC assumed single-line navbar content (~49px band) but the navbar stacks title (16px) + subtitle (12px) at default line-height ~1.5 = ~42px content vs the sidebar's 28px `<zt-logo>` content. Fixed in `src/components/navbar.ts` by adding `.nav-title-stack` wrapper with `min-height: 28px` + `flex-direction: column` + `justify-content: center` and pinning `line-height: 1` on title/subtitle so total content is 28px regardless of subtitle presence. Both bands now compute to 32px padding + 28px content + 1px border = 61px. — RESULT: User reports residual gap remains; new diagnostic via DevTools narrows the fix to .brand padding `1.2rem 1.25rem`.
+result: pass
+confirmed_at: 2026-05-19
+fix_commits:
+  - f1aa201 (height-lock on .nav-title-stack — necessary but not sufficient)
+  - f979081 (:host padding 1rem → 0.83rem — closes residual gap; user-determined empirically in DevTools)
+note: "Closed in two commits. The diagnostic agent's static-analysis recommendation (height-lock on .nav-title-stack) was a defensible improvement that prevents future font-metric drift, but did not close the residual gap on its own. The actual closing fix was reducing the navbar :host padding from `1rem` to `0.83rem`, determined empirically by the user in DevTools. Static analysis underestimated the rendered sidebar `.brand` row geometry — actual rendered band height was shorter than the static 61px prediction. Lesson: visual-alignment debugging benefits from browser-measurement context; static CSS analysis alone is insufficient for sub-pixel parity claims."
 
 ### 2. Navbar persistence across route changes (carried forward — state-continuity is a visual property)
 expected: Open /dashboard. Note the connection-indicator state (Connected / Disconnected dot). Navigate /dashboard -> /networks -> /users -> /controllers -> /dashboard via the sidebar. Navbar stays mounted (no flicker, no white frame), connection-status dot does not reset to 'checking pulse' on each nav (its @state survives because the component instance survives), title/subtitle update smoothly per route.
@@ -42,8 +42,8 @@ note: "WR-02 confirmed not perceptible on user's hardware. Remains deferred per 
 ## Summary
 
 total: 4
-passed: 3
-issues: 1
+passed: 4
+issues: 0
 pending: 0
 skipped: 0
 blocked: 0
@@ -52,7 +52,10 @@ fixed_pending_reconfirm: 0
 ## Gaps
 
 ### Gap 1: LAYOUT-02 navbar/.brand height mismatch — residual gap remains after 8f622f1 fix
-status: diagnosed
+status: resolved
+resolved_at: 2026-05-19
+resolution_commits: [f1aa201, f979081]
+resolution_summary: "Two-commit fix. f1aa201 height-locked .nav-title-stack (defensible improvement; prevents future font-metric drift); f979081 reduced :host padding 1rem → 0.83rem (the closing fix, user-determined empirically in DevTools). Lesson logged: static CSS analysis alone is insufficient for sub-pixel parity claims; visual-alignment debugging needs browser-measurement context."
 reported_by: user (DevTools inspection 2026-05-19)
 prior_fix_commit: 8f622f1 (closed initial ~14px gap but not the residual ~3px)
 verbatim: "ainda não está alinhado, percebi que se eu alterar os valores de padding, na ferramenta de inspect, de .brand para '1.2rem 1.25rem', aí sim fica perfeitamente alinhado."
