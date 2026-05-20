@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: milestone_ready
-stopped_at: "Phase 20 complete — CR-01 closed via 20-05 gap closure (Option B / IN-04). 5/5 plans verified (status: human_needed → approved by user). 4 deferred UAT items in 20-HUMAN-UAT.md (visual LAYOUT-02 alignment, navbar persistence smoke, CR-01 theme-toggle browser confirmation, WR-02 title-flash perceptibility). 3 deferred WARNINGs (WR-01/02/03) tracked for future plans. Milestone v3.1 all 3 phases complete (18, 19, 20)."
-last_updated: "2026-05-15T19:10:00.000Z"
-last_activity: 2026-05-15 -- Phase 20 complete (milestone v3.1 ready to close)
+stopped_at: "Phase 20 fully closed — CR-01 closed via 20-05 gap closure (Option B / IN-04) AND all 4 human UAT items confirmed (2026-05-19/20). UAT-1 (LAYOUT-02) closed via commits f1aa201 (.nav-title-stack height-lock) + f979081 (:host padding 1rem → 0.83rem, user-determined empirically in DevTools). 20-VERIFICATION.md re-stamped to status: passed. v3.1-MILESTONE-AUDIT.md upgradeable from tech_debt → passed. 3 deferred WARNINGs (WR-01/02/03) tracked for future plans. Milestone v3.1 all 3 phases complete (18, 19, 20) and ready for /gsd-complete-milestone."
+last_updated: "2026-05-20T00:00:00.000Z"
+last_activity: 2026-05-20 -- Phase 20 UAT closed (4/4 pass); milestone v3.1 ready to archive
 progress:
   total_phases: 3
   completed_phases: 3
@@ -25,12 +25,12 @@ See: .planning/PROJECT.md (updated 2026-05-04)
 
 ## Current Position
 
-Phase: 20 (shell-users-page-regression-fixes) — ✓ COMPLETE
+Phase: 20 (shell-users-page-regression-fixes) — ✓ COMPLETE (UAT closed)
 Plan: 5 of 5 (CR-01 gap-closure landed via 20-05; Option B / IN-04)
-Status: Milestone v3.1 ready to close (`/gsd-complete-milestone`)
-Last activity: 2026-05-15 -- Phase 20 complete (CR-01 closed; 4 UAT items deferred to 20-HUMAN-UAT.md)
+Status: Milestone v3.1 ready to close (`/gsd-complete-milestone`) — all UAT items confirmed 2026-05-19/20
+Last activity: 2026-05-20 -- Phase 20 UAT closure (4/4 pass; UAT-1 closed via f1aa201 + f979081)
 
-Progress: [██████████] 100% (3/3 phases complete; 9/9 plans done across milestone v3.1)
+Progress: [██████████] 100% (3/3 phases complete; 9/9 plans done across milestone v3.1; 4/4 UAT items confirmed)
 
 ## Performance Metrics
 
@@ -111,6 +111,6 @@ None. All seven v3.1 requirements are well-scoped polish items with no external 
 
 ## Session Continuity
 
-Last session: 2026-05-15
-Stopped at: Phase 20 complete — CR-01 closed via 20-05 gap closure (Option B / IN-04). 5/5 plans verified; user-approved with 4 UAT items deferred to 20-HUMAN-UAT.md. Milestone v3.1 all 3 phases complete.
-Resume file: `/gsd-complete-milestone` to archive v3.1 and roll over to v3.2, OR `/gsd-verify-work 20` to walk through the 4 deferred UAT items in a real browser before closing.
+Last session: 2026-05-20
+Stopped at: Phase 20 UAT closure complete (4/4 pass). UAT-1 (LAYOUT-02) closed via two commits: f1aa201 (.nav-title-stack height-lock) + f979081 (:host padding 0.83rem). 20-VERIFICATION.md re-stamped passed. Milestone v3.1 ready for archive.
+Resume file: `/gsd-complete-milestone v3.1` to archive v3.1 and roll over to v3.2.

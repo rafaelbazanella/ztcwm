@@ -1,9 +1,16 @@
 ---
 phase: 20-shell-users-page-regression-fixes
-verified: 2026-05-15T19:07:00Z
-status: human_needed
-score: 5/5 must-haves verified (CR-01 BLOCKER closed; LAYOUT-02 + persistence still require human visual check)
+verified: 2026-05-20T00:00:00Z
+status: passed
+score: 5/5 must-haves verified (programmatic) + 4/4 human UAT items confirmed (2026-05-19; UAT-1 closed via commits f1aa201 + f979081)
 overrides_applied: 0
+uat_closure:
+  uat_file: 20-HUMAN-UAT.md
+  completed: 2026-05-19
+  results: "4 pass / 0 issue (initial pass: 3 pass + 1 issue on UAT-1; UAT-1 closed by two follow-up commits and reconfirmed)"
+  fix_commits:
+    - f1aa201 (height-lock on .nav-title-stack — defensible improvement)
+    - f979081 (:host padding 1rem → 0.83rem — closing fix; user-determined empirically in DevTools)
 re_verification:
   previous_status: gaps_found
   previous_score: 4/5 must-haves verified (1 blocked by CR-01 regression)
